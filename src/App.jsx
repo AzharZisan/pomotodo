@@ -1,4 +1,4 @@
-import { RefreshCw, Timer, CircleDot, CircleDashed } from "lucide-react";
+import { RotateCcw, Timer, CircleDot, CircleDashed, CircleX } from "lucide-react";
 import "./App.css";
 import AddBtn from "./components/AddBtn";
 import CheckBtn from "./components/CheckBtn";
@@ -9,9 +9,13 @@ import { useState } from "react";
 
 function App() {
   const [navToggle, setNavToggle] = useState(true);
+  const [playNavigation, setPlayNavigation] = useState(true)
   const handleNavBtn = () => {
     setNavToggle((prev) => !prev);
   };
+  const handlePlayNavig = () => {
+    setPlayNavigation(prev => !prev)
+  }
   return (
     <>
       <section className="flex justify-center items-center">
@@ -38,10 +42,10 @@ function App() {
             <CircleDashed color="#ae2012" />
             <CircleDashed color="#ae2012" />
           </div>
-          <div className="flex justify-center items-center gap-8">
-            <StopBtn />
-            <PlayBtn />
-            <RefreshCw size={"30px"} color="#344e41" />
+          <div onClick={handlePlayNavig} className="flex justify-center items-center gap-8">
+            <CircleX size={"30px"} color="#344e41" />
+            {playNavigation ? <PlayBtn /> : <StopBtn />}
+            <RotateCcw size={"30px"} color="#344e41" />
           </div>
           <div className="h-[100px]"></div>
           <nav className="flex justify-center items-center gap-4 bg-(--primary) p-2 rounded-full fixed bottom-8">
