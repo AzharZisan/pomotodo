@@ -1,0 +1,20 @@
+@import 'tailwindcss';
+
+:root {
+    --bg: #dad7cd;
+    --primary: #344e41;
+    --secondary: #3a5a40;
+    --bg-lite:#a3b18a;
+    --bg-dark: #588157;
+}
+
+@font-face {
+    font-family: 'Bricolage';
+    src: url('/fonts/Bricolage.ttf');
+}
+
+* {
+    box-sizing: border-box;
+    font-family: Bricolage;
+    transition: all 0.3s ease;
+}
