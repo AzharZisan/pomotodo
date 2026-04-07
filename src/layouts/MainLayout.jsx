@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import AnalyticsBtn from '../components/AnalyticsBtn';
 import { Timer } from 'lucide-react';
-import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const MainLayout = () => {
     const [navToggle, setNavToggle] = useState(false);
@@ -10,7 +10,6 @@ const MainLayout = () => {
       setNavToggle((prev) => !prev);
     };
     const navigate = useNavigate();
-    const location = useLocation();
   return (
     <>
       <section className="flex justify-center items-center">
