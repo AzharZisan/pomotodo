@@ -10,7 +10,9 @@ const Dashboard = () => {
         </div>
 
         <div className="grid grid-cols-2 grid-rows-3 gap-4">
-          <div className="border-2 col-span-2"><BarChart /></div>
+          <div className="border-2 col-span-2 bg-[#3a5a4025]">
+            <BarChart />
+          </div>
           <div className="border-2 row-span-2 row-start-2">4</div>
           <div className="border-2 row-start-2">5</div>
           <div className="border-2 col-start-2 row-start-3">6</div>
