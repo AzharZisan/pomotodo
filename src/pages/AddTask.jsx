@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { MdOutlineAddCircle } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const AddTask = () => {
+    const [AddTask, setAddTask] = useState('')
+    const inputTaskRef = useRef();
+
+    const handleInputTask = () => {
+        setAddTask(inputTaskRef.current.value)
+    }
+
+    const taskData = {
+        task: inputTaskRef
+    }
+    console.log(AddTask)
   return (
     <>
       <div className="w-full h-screen flex justify-center items-center flex-col bg-(--bg)">
@@ -13,6 +24,8 @@ const AddTask = () => {
               Assign
             </label>
             <input
+            ref={inputTaskRef}
+            onChange={handleInputTask}
               type="text"
               placeholder="Add your tasks..."
               className="w-full outline-none bg-(--bg) p-2 text-(--primary) rounded-lg"
