@@ -13,7 +13,7 @@ const MainLayout = () => {
   return (
     <>
       <section className="flex justify-center items-center">
-        <div className="w-full h-auto bg-(--bg) py-2 flex flex-col justify-center items-center gap-10 max-w-[640px]">
+        <div className="w-full h-auto bg-(--bg) py-2 flex flex-col justify-center items-center gap-10 ">
           <Outlet />
 
           <nav className="flex justify-center items-center gap-4 bg-(--primary) p-2 rounded-full fixed bottom-8">
