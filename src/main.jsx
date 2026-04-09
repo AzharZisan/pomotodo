@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./pages/Dashboard.jsx";
 import MainLayout from "./layouts/MainLayout.jsx";
+import AddTask from "./pages/AddTask.jsx";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
       { path: "/dashboard", element: <Dashboard /> },
     ],
   },
+  {path: "/add-task", element: <AddTask />}
 ]);
 
 createRoot(document.getElementById("root")).render(
