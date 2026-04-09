@@ -3,6 +3,7 @@ import BarChart from "../components/BarChart";
 import CircleChart from "../components/CircleChart";
 import { MdOutlineAddCircle } from "react-icons/md";
 import Task from "../components/Task";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   return (
@@ -30,15 +31,21 @@ const Dashboard = () => {
               Total Focus Time
             </p>
           </div>
-          <div className="w-full h-auto flex justify-center items-center gap-1 text-md col-start-2 row-start-3 bg-(--bg-lite) text-(--primary) rounded-2xl hover:bg-(--primary) hover:text-(--bg-lite) cursor-pointer font-bold">
-            Add Task <MdOutlineAddCircle />
-          </div>
+          <Link to={'/add-task'}>
+            <button className="w-full h-full flex justify-center items-center gap-1 text-md col-start-2 row-start-3 bg-(--bg-lite) text-(--primary) rounded-2xl hover:bg-(--primary) hover:text-(--bg-lite) cursor-pointer font-bold">
+              Add Task <MdOutlineAddCircle />
+            </button>
+          </Link>
         </div>
         <div className="w-full h-auto py-8">
           <h2 className="text-2xl font-bold text-(--primary) border-b-2 border-(--primary)">
             Tasks
           </h2>
-          <div className="w-full mt-4 flex justify-start items-center"><h2 className="px-2 py-1 rounded-lg text-(--bg) text-sm bg-(--secondary)">21 Jan 2025</h2></div>
+          <div className="w-full mt-4 flex justify-start items-center">
+            <h2 className="px-2 py-1 rounded-lg text-(--bg) text-sm bg-(--secondary)">
+              21 Jan 2025
+            </h2>
+          </div>
           <Task />
           <Task />
           <Task />

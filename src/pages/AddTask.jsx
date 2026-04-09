@@ -3,17 +3,23 @@ import { MdOutlineAddCircle } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const AddTask = () => {
-    const [AddTask, setAddTask] = useState('')
-    const inputTaskRef = useRef();
+  const [TaskFocus, setTaskFocus] = useState("");
 
-    const handleInputTask = () => {
-        setAddTask(inputTaskRef.current.value)
-    }
+  const handleTaskInputFocus = (e) => {
+    setTaskFocus(e.target.value);
+  };
 
+  const printFocus = () => {
+    if (!TaskFocus.trim()) return;
     const taskData = {
-        task: inputTaskRef
-    }
-    console.log(AddTask)
+      task: TaskFocus,
+    };
+    const existing = JSON.parse(localStorage.getItem("tasklist")) || [];
+    const updated = [...existing, taskData];
+    localStorage.setItem("tasklist", JSON.stringify(updated));
+    setTaskFocus("");
+  };
+
   return (
     <>
       <div className="w-full h-screen flex justify-center items-center flex-col bg-(--bg)">
@@ -24,8 +30,8 @@ const AddTask = () => {
               Assign
             </label>
             <input
-            ref={inputTaskRef}
-            onChange={handleInputTask}
+              value={TaskFocus}
+              onChange={handleTaskInputFocus}
               type="text"
               placeholder="Add your tasks..."
               className="w-full outline-none bg-(--bg) p-2 text-(--primary) rounded-lg"
@@ -62,7 +68,10 @@ const AddTask = () => {
           </div>
         </div>
         <Link to={"/"}>
-          <button className="w-[300px] flex justify-center items-center gap-2 p-4 mt-4 bg-(--bg-lite) rounded-xl text-(--primary) font-bold hover:bg-(--bg-dark) hover:text-(--bg) cursor-pointer">
+          <button
+            onClick={printFocus}
+            className="w-[300px] flex justify-center items-center gap-2 p-4 mt-4 bg-(--bg-lite) rounded-xl text-(--primary) font-bold hover:bg-(--bg-dark) hover:text-(--bg) cursor-pointer"
+          >
             Add Task <MdOutlineAddCircle />
           </button>
         </Link>
