@@ -5,6 +5,11 @@ import { Link } from "react-router-dom";
 const AddTask = () => {
   const [taskFocus, setTaskFocus] = useState("");
   const [dateFocus, setDateFocus] = useState("");
+  const [optionFc, setOptionFc] = useState("");
+  const handleOption = (e) => {
+    setOptionFc(e.target.value);
+  };
+  console.log(optionFc)
 
   const handleTaskInputFocus = (e) => {
     setTaskFocus(e.target.value);
@@ -29,7 +34,7 @@ const AddTask = () => {
     setDateFocus("");
   };
 
-  let optionSr = existing.map((i) => i.entries).length;
+  let optionSr = 1;
 
   return (
     <>
@@ -69,14 +74,20 @@ const AddTask = () => {
               Priority
             </label>
             <select
+              value={optionFc}
+              onChange={handleOption}
               id="priority"
               className="px-2 mr-0.5 rounded bg-(--primary) text-(--bg) outline-none font-bold"
             >
-              <option value="1">1</option>
-              <option value="1">1</option>
-              <option value="1">1</option>
-              <option value="1">1</option>
-              <option value="1">1</option>
+              {existing.length !== 0 ? (
+                existing.map((e, index) => (
+                  <option key={index} value={e.entries.task}>
+                    {index + 1}
+                  </option>
+                ))
+              ) : (
+                <option value={"default"}>1</option>
+              )}
             </select>
           </div>
         </div>
