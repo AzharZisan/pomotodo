@@ -3,21 +3,30 @@ import { MdOutlineAddCircle } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const AddTask = () => {
-  const [TaskFocus, setTaskFocus] = useState("");
+  const [taskFocus, setTaskFocus] = useState("");
+  const [dateFocus, setDateFocus] = useState('')
 
   const handleTaskInputFocus = (e) => {
     setTaskFocus(e.target.value);
   };
 
+  const handleDateInputFocus = (e) => {
+    setDateFocus(e.target.value)
+  }
+
+  const existing = JSON.parse(localStorage.getItem("tasklist")) || [];
   const printFocus = () => {
-    if (!TaskFocus.trim()) return;
+    if (!taskFocus.trim()) return;
     const taskData = {
-      task: TaskFocus,
+      date: dateFocus,
+      entries: {
+        task: taskFocus,
+      }
     };
-    const existing = JSON.parse(localStorage.getItem("tasklist")) || [];
     const updated = [...existing, taskData];
     localStorage.setItem("tasklist", JSON.stringify(updated));
     setTaskFocus("");
+    setDateFocus('');
   };
 
   return (
@@ -30,7 +39,7 @@ const AddTask = () => {
               Assign
             </label>
             <input
-              value={TaskFocus}
+              value={taskFocus}
               onChange={handleTaskInputFocus}
               type="text"
               placeholder="Add your tasks..."
@@ -43,6 +52,8 @@ const AddTask = () => {
               Date
             </label>
             <input
+            value={dateFocus}
+            onChange={handleDateInputFocus}
               type="date"
               id="date"
               className="w-full outline-none bg-(--bg) p-2 text-(--primary) rounded-lg"
@@ -67,7 +78,7 @@ const AddTask = () => {
             </select>
           </div>
         </div>
-        <Link to={"/"}>
+        <Link to={"/dashboard"}>
           <button
             onClick={printFocus}
             className="w-[300px] flex justify-center items-center gap-2 p-4 mt-4 bg-(--bg-lite) rounded-xl text-(--primary) font-bold hover:bg-(--bg-dark) hover:text-(--bg) cursor-pointer"

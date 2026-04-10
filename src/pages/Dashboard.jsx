@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const Dashboard = () => {
   return (
     <>
-      <div className="w-full px-4 pt-4 pb-16 h-auto">
+      <div className="w-full px-4 pt-4 pb-16 h-auto max-w-[440px]">
         <div className="w-full text-center">
           <h2 className="text-2xl font-bold text-(--primary) p-4">Dashboard</h2>
         </div>
