@@ -4,15 +4,15 @@ import { Link } from "react-router-dom";
 
 const AddTask = () => {
   const [taskFocus, setTaskFocus] = useState("");
-  const [dateFocus, setDateFocus] = useState('')
+  const [dateFocus, setDateFocus] = useState("");
 
   const handleTaskInputFocus = (e) => {
     setTaskFocus(e.target.value);
   };
 
   const handleDateInputFocus = (e) => {
-    setDateFocus(e.target.value)
-  }
+    setDateFocus(e.target.value);
+  };
 
   const existing = JSON.parse(localStorage.getItem("tasklist")) || [];
   const printFocus = () => {
@@ -21,13 +21,15 @@ const AddTask = () => {
       date: dateFocus,
       entries: {
         task: taskFocus,
-      }
+      },
     };
     const updated = [...existing, taskData];
     localStorage.setItem("tasklist", JSON.stringify(updated));
     setTaskFocus("");
-    setDateFocus('');
+    setDateFocus("");
   };
+
+  let optionSr = existing.map((i) => i.entries).length;
 
   return (
     <>
@@ -52,8 +54,8 @@ const AddTask = () => {
               Date
             </label>
             <input
-            value={dateFocus}
-            onChange={handleDateInputFocus}
+              value={dateFocus}
+              onChange={handleDateInputFocus}
               type="date"
               id="date"
               className="w-full outline-none bg-(--bg) p-2 text-(--primary) rounded-lg"
@@ -71,10 +73,10 @@ const AddTask = () => {
               className="px-2 mr-0.5 rounded bg-(--primary) text-(--bg) outline-none font-bold"
             >
               <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
+              <option value="1">1</option>
+              <option value="1">1</option>
+              <option value="1">1</option>
+              <option value="1">1</option>
             </select>
           </div>
         </div>
