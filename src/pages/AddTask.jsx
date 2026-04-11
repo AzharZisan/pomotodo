@@ -3,6 +3,23 @@ import { MdOutlineAddCircle } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const AddTask = () => {
+  const [inputTask, setInputTask] = useState("");
+  const [taskFocus, setTaskFocus] = useState("");
+  const dateInputRef = useRef();
+  const priorityInputRef = useRef();
+
+  const handleAddTaskData = () => {
+    const taskData = JSON.parse(localStorage.getItem("tasklist")) || [];
+    const taskList = {
+      date: Date.now(),
+      entries: {
+        task: "heelo",
+        priority: "priority",
+      },
+    };
+    const updatedTaskData = [...taskData, taskList];
+    localStorage.setItem("tasklist", JSON.stringify(updatedTaskData));
+  };
 
   return (
     <>
@@ -51,6 +68,7 @@ const AddTask = () => {
         </div>
         <Link to={"/dashboard"}>
           <button
+            onClick={handleAddTaskData}
             className="w-[300px] flex justify-center items-center gap-2 p-4 mt-4 bg-(--bg-lite) rounded-xl text-(--primary) font-bold hover:bg-(--bg-dark) hover:text-(--bg) cursor-pointer"
           >
             Add Task <MdOutlineAddCircle />
