@@ -3,38 +3,6 @@ import { MdOutlineAddCircle } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const AddTask = () => {
-  const [taskFocus, setTaskFocus] = useState("");
-  const [dateFocus, setDateFocus] = useState("");
-  const [optionFc, setOptionFc] = useState("");
-  const handleOption = (e) => {
-    setOptionFc(e.target.value);
-  };
-  console.log(optionFc)
-
-  const handleTaskInputFocus = (e) => {
-    setTaskFocus(e.target.value);
-  };
-
-  const handleDateInputFocus = (e) => {
-    setDateFocus(e.target.value);
-  };
-
-  const existing = JSON.parse(localStorage.getItem("tasklist")) || [];
-  const printFocus = () => {
-    if (!taskFocus.trim()) return;
-    const taskData = {
-      date: dateFocus,
-      entries: {
-        task: taskFocus,
-      },
-    };
-    const updated = [...existing, taskData];
-    localStorage.setItem("tasklist", JSON.stringify(updated));
-    setTaskFocus("");
-    setDateFocus("");
-  };
-
-  let optionSr = 1;
 
   return (
     <>
@@ -46,8 +14,6 @@ const AddTask = () => {
               Assign
             </label>
             <input
-              value={taskFocus}
-              onChange={handleTaskInputFocus}
               type="text"
               placeholder="Add your tasks..."
               className="w-full outline-none bg-(--bg) p-2 text-(--primary) rounded-lg"
@@ -59,8 +25,6 @@ const AddTask = () => {
               Date
             </label>
             <input
-              value={dateFocus}
-              onChange={handleDateInputFocus}
               type="date"
               id="date"
               className="w-full outline-none bg-(--bg) p-2 text-(--primary) rounded-lg"
@@ -74,26 +38,19 @@ const AddTask = () => {
               Priority
             </label>
             <select
-              value={optionFc}
-              onChange={handleOption}
               id="priority"
               className="px-2 mr-0.5 rounded bg-(--primary) text-(--bg) outline-none font-bold"
             >
-              {existing.length !== 0 ? (
-                existing.map((e, index) => (
-                  <option key={index} value={e.entries.task}>
-                    {index + 1}
-                  </option>
-                ))
-              ) : (
-                <option value={"default"}>1</option>
-              )}
+              <option value="1">1</option>
+              <option value="1">1</option>
+              <option value="1">1</option>
+              <option value="1">1</option>
+              <option value="1">1</option>
             </select>
           </div>
         </div>
         <Link to={"/dashboard"}>
           <button
-            onClick={printFocus}
             className="w-[300px] flex justify-center items-center gap-2 p-4 mt-4 bg-(--bg-lite) rounded-xl text-(--primary) font-bold hover:bg-(--bg-dark) hover:text-(--bg) cursor-pointer"
           >
             Add Task <MdOutlineAddCircle />
