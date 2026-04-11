@@ -4,8 +4,18 @@ import CircleChart from "../components/CircleChart";
 import { MdOutlineAddCircle } from "react-icons/md";
 import Task from "../components/Task";
 import { Link } from "react-router-dom";
+import { Temporal } from "temporal-polyfill";
 
 const Dashboard = () => {
+  const taskData = JSON.parse(localStorage.getItem("tasklist")) || [];
+  let entries = taskData.flatMap((i) => i.entries);
+
+  const monthValue = {
+    1: 'hdsi',
+    2: 'hello'
+  }
+
+  console.log(monthValue[2])
   return (
     <>
       <div className="w-full px-4 pt-4 pb-16 h-auto max-w-[440px]">
@@ -31,7 +41,7 @@ const Dashboard = () => {
               Total Focus Time
             </p>
           </div>
-          <Link to={'/add-task'}>
+          <Link to={"/add-task"}>
             <button className="w-full h-full flex justify-center items-center gap-1 text-md col-start-2 row-start-3 bg-(--bg-lite) text-(--primary) rounded-2xl hover:bg-(--primary) hover:text-(--bg-lite) cursor-pointer font-bold">
               Add Task <MdOutlineAddCircle />
             </button>
@@ -46,10 +56,9 @@ const Dashboard = () => {
               21 Jan 2025
             </h2>
           </div>
-          <Task />
-          <Task />
-          <Task />
-          <Task />
+          {entries.map((i) => (
+            <Task key={i.id} taskValue={i.task} priorityValue={i.priority} />
+          ))}
         </div>
       </div>
     </>

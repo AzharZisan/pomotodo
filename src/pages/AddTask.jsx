@@ -23,11 +23,13 @@ const AddTask = () => {
   }
 
   const taskLength = taskData.flatMap((i) => i.entries).length;
+  const taskUniId = taskData.flatMap((i) => i.entries).map((i) => i.id)
 
   const handleAddTaskData = () => {
     const taskList = {
       date: dateInputRef.current.value,
       entries: [{
+        id: crypto.randomUUID(),
         task: inputTask,
         priority: priorityInputRef.current.value,
       }],
@@ -92,7 +94,7 @@ const AddTask = () => {
               className="px-2 mr-0.5 rounded bg-(--primary) text-(--bg) outline-none font-bold"
             >
               {Array.from({length: taskLength + 1}, (_, i) => (
-                <option value={i + 1}>{i + 1}</option>
+                <option key={taskUniId} value={i + 1}>{i + 1}</option>
               ))}
             </select>
           </div>
