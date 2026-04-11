@@ -23,19 +23,28 @@ const AddTask = () => {
   }
 
   const taskLength = taskData.flatMap((i) => i.entries).length;
-  console.log(taskLength);
 
   const handleAddTaskData = () => {
     const taskList = {
       date: dateInputRef.current.value,
-      entries: {
+      entries: [{
         task: inputTask,
         priority: priorityInputRef.current.value,
-      },
+      }],
     };
-    const updatedTaskData = [...taskData, taskList];
-    localStorage.setItem("tasklist", JSON.stringify(updatedTaskData));
     setInputTask("");
+    const updatedTaskData = [...taskData, taskList];
+    
+    const merged = updatedTaskData.reduce((acc, item) => {
+      const existing = acc.find((i) => i.date === item.date)
+      if (existing) {
+        existing.entries.push(...item.entries)
+      } else {
+        acc.push({...item})
+      }
+      return acc
+    },[])
+    localStorage.setItem("tasklist", JSON.stringify(merged));
   };
 
   return (
