@@ -10,12 +10,24 @@ const Dashboard = () => {
   const taskData = JSON.parse(localStorage.getItem("tasklist")) || [];
   let entries = taskData.flatMap((i) => i.entries);
 
+  const day = Temporal.Now.plainDateISO().day;
+  const monthCode = Temporal.Now.plainDateISO().month;
   const monthValue = {
-    1: 'hdsi',
-    2: 'hello'
-  }
+    1: "Jan",
+    2: "Feb",
+    3: "Mar",
+    4: "Apr",
+    5: "May",
+    6: "Jun",
+    7: "Jul",
+    8: "Aug",
+    9: "Sep",
+    10: "Oct",
+    11: "Nov",
+    12: "Dec",
+  };
+  const month = monthValue[monthCode];
 
-  console.log(monthValue[2])
   return (
     <>
       <div className="w-full px-4 pt-4 pb-16 h-auto max-w-[440px]">
@@ -51,13 +63,24 @@ const Dashboard = () => {
           <h2 className="text-2xl font-bold text-(--primary) border-b-2 border-(--primary)">
             Tasks
           </h2>
-          <div className="w-full mt-4 flex justify-start items-center">
-            <h2 className="px-2 py-1 rounded-lg text-(--bg) text-sm bg-(--secondary)">
-              21 Jan 2025
-            </h2>
-          </div>
-          {entries.map((i) => (
-            <Task key={i.id} taskValue={i.task} priorityValue={i.priority} />
+          {taskData.map((i) => (
+            <div key={i.taskListId}>
+              <div className="w-full mt-4 flex justify-start items-center">
+                <h2
+                  
+                  className="px-2 py-1 rounded-lg text-(--bg) text-sm bg-(--secondary)"
+                >
+                  {i.date}
+                </h2>
+              </div>
+              {i.entries.map((item) => (
+                <Task
+                  key={item.id}
+                  taskValue={item.task}
+                  priorityValue={item.priority}
+                />
+              ))}
+            </div>
           ))}
         </div>
       </div>

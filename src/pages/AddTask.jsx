@@ -27,6 +27,7 @@ const AddTask = () => {
 
   const handleAddTaskData = () => {
     const taskList = {
+      taskListId : crypto.randomUUID(),
       date: dateInputRef.current.value,
       entries: [{
         id: crypto.randomUUID(),
@@ -73,7 +74,6 @@ const AddTask = () => {
             </label>
             <input
               ref={dateInputRef}
-              value={thisDay}
               onChange={handleDateRef}
               type="date"
               id="date"
