@@ -1,24 +1,34 @@
 import React, { useRef, useState } from "react";
 import { MdOutlineAddCircle } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { Temporal } from "temporal-polyfill";
 
 const AddTask = () => {
   const [inputTask, setInputTask] = useState("");
-  const [taskFocus, setTaskFocus] = useState("");
+  const thisDay = Temporal.Now.plainDateISO().toString()
   const dateInputRef = useRef();
   const priorityInputRef = useRef();
+
+  const handleInputTask = (e) => {
+    setInputTask(e.target.value);
+  };
+
+  const handleDateRef = () => {
+    dateInputRef.current.value;
+  };
 
   const handleAddTaskData = () => {
     const taskData = JSON.parse(localStorage.getItem("tasklist")) || [];
     const taskList = {
-      date: Date.now(),
+      date: dateInputRef.current.value,
       entries: {
-        task: "heelo",
+        task: inputTask,
         priority: "priority",
       },
     };
     const updatedTaskData = [...taskData, taskList];
     localStorage.setItem("tasklist", JSON.stringify(updatedTaskData));
+    setInputTask("");
   };
 
   return (
@@ -31,6 +41,8 @@ const AddTask = () => {
               Assign
             </label>
             <input
+              value={inputTask}
+              onChange={handleInputTask}
               type="text"
               placeholder="Add your tasks..."
               className="w-full outline-none bg-(--bg) p-2 text-(--primary) rounded-lg"
@@ -42,6 +54,9 @@ const AddTask = () => {
               Date
             </label>
             <input
+              ref={dateInputRef}
+              value={thisDay}
+              onChange={handleDateRef}
               type="date"
               id="date"
               className="w-full outline-none bg-(--bg) p-2 text-(--primary) rounded-lg"
