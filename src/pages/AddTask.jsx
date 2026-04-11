@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import { Temporal } from "temporal-polyfill";
 
 const AddTask = () => {
+  const taskData = JSON.parse(localStorage.getItem("tasklist")) || [];
   const [inputTask, setInputTask] = useState("");
-  const thisDay = Temporal.Now.plainDateISO().toString()
+  const thisDay = Temporal.Now.plainDateISO().toString();
   const dateInputRef = useRef();
   const priorityInputRef = useRef();
 
@@ -17,13 +18,19 @@ const AddTask = () => {
     dateInputRef.current.value;
   };
 
+  const handlePriorityRef = () => {
+    priorityInputRef.current.value
+  }
+
+  const taskLength = taskData.flatMap((i) => i.entries).length;
+  console.log(taskLength);
+
   const handleAddTaskData = () => {
-    const taskData = JSON.parse(localStorage.getItem("tasklist")) || [];
     const taskList = {
       date: dateInputRef.current.value,
       entries: {
         task: inputTask,
-        priority: "priority",
+        priority: priorityInputRef.current.value,
       },
     };
     const updatedTaskData = [...taskData, taskList];
@@ -70,14 +77,14 @@ const AddTask = () => {
               Priority
             </label>
             <select
+            ref={priorityInputRef}
+            onChange={handlePriorityRef}
               id="priority"
               className="px-2 mr-0.5 rounded bg-(--primary) text-(--bg) outline-none font-bold"
             >
-              <option value="1">1</option>
-              <option value="1">1</option>
-              <option value="1">1</option>
-              <option value="1">1</option>
-              <option value="1">1</option>
+              {Array.from({length: taskLength + 1}, (_, i) => (
+                <option value={i + 1}>{i + 1}</option>
+              ))}
             </select>
           </div>
         </div>
