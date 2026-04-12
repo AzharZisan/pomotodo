@@ -9,6 +9,8 @@ import { Temporal } from "temporal-polyfill";
 const Dashboard = () => {
   const taskData = JSON.parse(localStorage.getItem("tasklist")) || [];
   let entries = taskData.flatMap((i) => i.entries);
+  const taskdate = taskData.flatMap((i) => i.date.slice(6,7))
+  const erx = taskdate[0]
 
   const day = Temporal.Now.plainDateISO().day;
   const monthCode = Temporal.Now.plainDateISO().month;
@@ -26,7 +28,9 @@ const Dashboard = () => {
     11: "Nov",
     12: "Dec",
   };
-  const month = monthValue[monthCode];
+  const month = monthValue[erx];
+  const year = Temporal.Now.plainDateISO().year
+  console.log(day,month,year)
 
   return (
     <>
