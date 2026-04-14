@@ -64,16 +64,16 @@ const Dashboard = () => {
           </Link>
         </div>
         <div className="w-full h-auto py-8">
-          <h2 className="text-2xl font-bold text-(--primary) border-b-2 border-(--primary)">
-            Tasks
-          </h2>
+          <div className="w-full h-auto border-(--primary) border-b-2 flex justify-between items-center pb-1">
+            <h2 className="text-2xl font-bold text-(--primary)">
+              Tasks
+            </h2>
+            <button className="py-1 px-2 rounded-xl text-(--primary) text-sm font-bold bg-(--bg-lite) hover:bg-(--bg-dark) hover:text-(--bg) cursor-pointer">Clear Task</button>
+          </div>
           {taskData.map((i) => (
             <div key={i.taskListId}>
               <div className="w-full mt-4 flex justify-start items-center">
-                <h2
-                  
-                  className="px-2 py-1 rounded-lg text-(--bg) text-sm bg-(--secondary)"
-                >
+                <h2 className="px-2 py-1 rounded-lg text-(--bg) text-sm bg-(--secondary)">
                   {i.date}
                 </h2>
               </div>
