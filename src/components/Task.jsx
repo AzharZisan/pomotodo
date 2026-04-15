@@ -32,7 +32,7 @@ const Task = ({ taskValue, priorityValue, taskId }) => {
             name=""
             id=""
             checked={onChecked}
-            onClick={handleOnChecked}
+            onChange={handleOnChecked}
             className="translate-y-2"
           />
           <p
