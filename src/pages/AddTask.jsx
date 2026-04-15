@@ -33,6 +33,7 @@ const AddTask = () => {
         id: crypto.randomUUID(),
         task: inputTask,
         priority: priorityInputRef.current.value,
+        checked: false,
       }],
     };
     setInputTask("");

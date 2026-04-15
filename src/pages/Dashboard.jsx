@@ -30,7 +30,7 @@ const Dashboard = () => {
   };
   const month = monthValue[erx];
   const year = Temporal.Now.plainDateISO().year
-  console.log(day,month,year)
+  // console.log(day,month,year)
 
   return (
     <>
