@@ -8,29 +8,6 @@ import { Temporal } from "temporal-polyfill";
 
 const Dashboard = () => {
   const taskData = JSON.parse(localStorage.getItem("tasklist")) || [];
-  let entries = taskData.flatMap((i) => i.entries);
-  const taskdate = taskData.flatMap((i) => i.date.slice(6,7))
-  const erx = taskdate[0]
-
-  const day = Temporal.Now.plainDateISO().day;
-  const monthCode = Temporal.Now.plainDateISO().month;
-  const monthValue = {
-    1: "Jan",
-    2: "Feb",
-    3: "Mar",
-    4: "Apr",
-    5: "May",
-    6: "Jun",
-    7: "Jul",
-    8: "Aug",
-    9: "Sep",
-    10: "Oct",
-    11: "Nov",
-    12: "Dec",
-  };
-  const month = monthValue[erx];
-  const year = Temporal.Now.plainDateISO().year
-  // console.log(day,month,year)
 
   return (
     <>
@@ -65,16 +42,16 @@ const Dashboard = () => {
         </div>
         <div className="w-full h-auto py-8">
           <div className="w-full h-auto border-(--primary) border-b-2 flex justify-between items-center pb-1">
-            <h2 className="text-2xl font-bold text-(--primary)">
-              Tasks
-            </h2>
-            <button className="py-1 px-2 rounded-xl text-(--primary) text-sm font-bold bg-(--bg-lite) hover:bg-(--bg-dark) hover:text-(--bg) cursor-pointer">Clear Task</button>
+            <h2 className="text-2xl font-bold text-(--primary)">Tasks</h2>
+            <button className="py-1 px-2 rounded-xl text-(--primary) text-sm font-bold bg-(--bg-lite) hover:bg-(--bg-dark) hover:text-(--bg) cursor-pointer">
+              Clear Task
+            </button>
           </div>
           {taskData.map((i) => (
             <div key={i.taskListId}>
               <div className="w-full mt-4 flex justify-start items-center">
                 <h2 className="px-2 py-1 rounded-lg text-(--bg) text-sm bg-(--secondary)">
-                  {i.date}
+                  {i.formatedDate}
                 </h2>
               </div>
               {i.entries.map((item) => (
