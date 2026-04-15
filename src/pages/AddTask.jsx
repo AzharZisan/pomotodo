@@ -8,6 +8,7 @@ const AddTask = () => {
   const [inputTask, setInputTask] = useState("");
   const thisDay = Temporal.Now.plainDateISO().toString();
   const dateInputRef = useRef();
+  const [formatedDateSt, setFormatedDateSt] = useState('')
   const priorityInputRef = useRef();
 
   const handleInputTask = (e) => {
@@ -15,7 +16,15 @@ const AddTask = () => {
   };
 
   const handleDateRef = () => {
-    dateInputRef.current.value;
+    dateInputRef.current.value
+    const rawDate = dateInputRef.current.value;
+    const [year, month, day] = rawDate.split('-')
+    const formated = new Date(year, month - 1, day).toLocaleString('en-GB', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    })
+    setFormatedDateSt(formated)
   };
 
   const handlePriorityRef = () => {
@@ -29,6 +38,7 @@ const AddTask = () => {
     const taskList = {
       taskListId : crypto.randomUUID(),
       date: dateInputRef.current.value,
+      formatedDate : formatedDateSt,
       entries: [{
         id: crypto.randomUUID(),
         task: inputTask,
