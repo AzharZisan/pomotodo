@@ -82,6 +82,7 @@ const Dashboard = () => {
                   key={item.id}
                   taskValue={item.task}
                   priorityValue={item.priority}
+                  taskId={item.id}
                 />
               ))}
             </div>

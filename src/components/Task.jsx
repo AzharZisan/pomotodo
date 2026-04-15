@@ -1,10 +1,20 @@
 import React, { useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 
-const Task = ({taskValue, priorityValue}) => {
+const Task = ({taskValue, priorityValue, taskId}) => {
   const [onChecked, setOnChecked] = useState(false)
+  const taskData = JSON.parse(localStorage.getItem('tasklist')) || []
+
   const handleOnChecked = () => {
-    setOnChecked(!onChecked)
+    const newChecked = !onChecked
+    setOnChecked(newChecked)
+    
+    const updated = taskData.map((e) => ({
+      ...e,
+      entries: e.entries.map((i) => 
+      i.id === taskId ? {...i, checked: newChecked} : i)
+    }))
+    localStorage.setItem('tasklist', JSON.stringify(updated))
   }
   
   return (
