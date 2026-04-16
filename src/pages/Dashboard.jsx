@@ -5,9 +5,18 @@ import { MdOutlineAddCircle } from "react-icons/md";
 import Task from "../components/Task";
 import { Link } from "react-router-dom";
 import { Temporal } from "temporal-polyfill";
+import { useState } from "react";
 
 const Dashboard = () => {
-  const taskData = JSON.parse(localStorage.getItem("tasklist")) || [];
+  const [taskData, setTaskData] = useState(JSON.parse(localStorage.getItem("tasklist")) || [])
+  const handleDeleteTask = (id) => {
+    const targetDel = taskData.map((group) => ({
+      ...group,
+      entries: group.entries.filter((item) => item.id !== id)
+    }))
+    setTaskData(targetDel)
+    localStorage.setItem('tasklist', JSON.stringify(targetDel))
+  }
 
   return (
     <>
@@ -60,6 +69,7 @@ const Dashboard = () => {
                   taskValue={item.task}
                   priorityValue={item.priority}
                   taskId={item.id}
+                  onDelete={() => handleDeleteTask(item.id)}
                 />
               ))}
             </div>
