@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 
-const Task = ({ taskValue, priorityValue, taskId }) => {
+const Task = ({ taskValue, priorityValue, taskId, onDelete }) => {
   const taskData = JSON.parse(localStorage.getItem("tasklist")) || [];
   const [onChecked, setOnChecked] = useState(() => {
     const target = taskData
@@ -46,7 +46,10 @@ const Task = ({ taskValue, priorityValue, taskId }) => {
           <p className="px-1 text-sm bg-(--primary) text-(--bg) rounded-md">
             {priorityValue}
           </p>
-          <MdDeleteOutline className="text-xl ml-2 text-(--primary) hover:text-(--bg-dark) cursor-pointer" />
+          <MdDeleteOutline
+            onClick={onDelete}
+            className="text-xl ml-2 text-(--primary) hover:text-(--bg-dark) cursor-pointer"
+          />
         </div>
       </div>
     </>
