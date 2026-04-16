@@ -8,23 +8,17 @@ import { Temporal } from "temporal-polyfill";
 import { useState } from "react";
 
 const Dashboard = () => {
-  const [taskData, setTaskData] = useState(JSON.parse(localStorage.getItem("tasklist")) || [])
+  const [taskData, setTaskData] = useState(
+    JSON.parse(localStorage.getItem("tasklist")) || [],
+  );
   const handleDeleteTask = (id, taskListId) => {
     const targetDel = taskData.map((group) => ({
       ...group,
-      entries: group.entries.filter((item) => item.id !== id)
-    }))
-    setTaskData(targetDel)
-    localStorage.setItem('tasklist', JSON.stringify(targetDel))
-    if(taskData.filter((i) => i.taskListId === taskListId)) {
-        if (taskData.filter((i) => i.entries.length === 0)) {
-          
-        }
-    } else {
-      console.log("error")
-    }
-  }
-  // console.log(taskData.filter((i) => i.entries.length === 0 ? true : false));
+      entries: group.entries.filter((item) => item.id !== id),
+    })).filter((i) => i.entries.length > 0);
+    setTaskData(targetDel);
+    localStorage.setItem("tasklist", JSON.stringify(targetDel));
+  };
 
   return (
     <>
