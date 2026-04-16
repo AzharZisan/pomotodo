@@ -20,6 +20,10 @@ const Dashboard = () => {
     localStorage.setItem("tasklist", JSON.stringify(targetDel));
   };
 
+  const handleClearData = () => {
+    localStorage.removeItem('tasklist')
+  }
+
   return (
     <>
       <div className="w-full px-4 pt-4 pb-16 h-auto max-w-[440px]">
@@ -54,7 +58,7 @@ const Dashboard = () => {
         <div className="w-full h-auto py-8">
           <div className="w-full h-auto border-(--primary) border-b-2 flex justify-between items-center pb-1">
             <h2 className="text-2xl font-bold text-(--primary)">Tasks</h2>
-            <button className="py-1 px-2 rounded-xl text-(--primary) text-sm font-bold bg-(--bg-lite) hover:bg-(--bg-dark) hover:text-(--bg) cursor-pointer">
+            <button onClick={handleClearData} className="py-1 px-2 rounded-xl text-(--primary) text-sm font-bold bg-(--bg-lite) hover:bg-(--bg-dark) hover:text-(--bg) cursor-pointer">
               Clear Task
             </button>
           </div>
