@@ -32,7 +32,6 @@ const AddTask = () => {
   }
 
   const taskLength = taskData.flatMap((i) => i.entries).length;
-  const taskUniId = taskData.flatMap((i) => i.entries).map((i) => i.id)
 
   const handleAddTaskData = () => {
     const taskList = {
@@ -105,7 +104,7 @@ const AddTask = () => {
               className="px-2 mr-0.5 rounded bg-(--primary) text-(--bg) outline-none font-bold"
             >
               {Array.from({length: taskLength + 1}, (_, i) => (
-                <option key={taskUniId} value={i + 1}>{i + 1}</option>
+                <option key={i} value={i + 1}>{i + 1}</option>
               ))}
             </select>
           </div>

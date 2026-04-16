@@ -22,6 +22,7 @@ const Dashboard = () => {
 
   const handleClearData = () => {
     localStorage.removeItem('tasklist')
+    setTaskData([])
   }
 
   return (
