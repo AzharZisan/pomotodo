@@ -5,7 +5,6 @@ import CheckBtn from "./components/CheckBtn";
 import PlayBtn from "./components/PlayBtn";
 import StopBtn from "./components/StopBtn";
 import { useEffect, useState, useRef } from "react";
-import StaticNav from "./layouts/MainLayout";
 
 function App() {
   const [timeLeft, setTimeLeft] = useState(25 * 60);
