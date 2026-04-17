@@ -60,6 +60,14 @@ function App() {
     setTimeLeft(phases[phaseIndex].duration);
   };
 
+  const handleFullReset = () => {
+    setIsRunning(false)
+    setTimeLeft(phases[0].duration)
+  }
+
+  const [fullResetAlert, setFullResetAlert] = useState(false);
+  const [exisResetAlert, setExisResetAlert] = useState(false)
+
   const getStatus = (phases) => {
     if (phases < phaseIndex) return "done";
     if (phases === phaseIndex) return "active";
@@ -118,8 +126,25 @@ function App() {
         )}
       </div>
       <div className="flex justify-center items-center gap-8">
-        <button>
-          <TimerReset size={"30px"} color="#344e41" />
+        <button
+          onMouseEnter={() => setFullResetAlert(true)}
+          onMouseLeave={() => setFullResetAlert(false)}
+          onClick={handleFullReset}
+          className="relative"
+        >
+          <TimerReset
+            size={"30px"}
+            color="#344e41"
+            className="hover:scale-[1.2] transition-all duration-1000 ease-in-out "
+          />
+          <div
+            className={`w-[100px] absolute bg-(--primary) rounded-lg text-(--bg) left-[50%] -bottom-13 -translate-[50%] ${fullResetAlert === false ? "invisible opacity-0" : "visible opacity-100"}`}
+          >
+            Full Reset
+          </div>
+          <div
+            className={`absolute w-5 h-3 bg-(--primary) [clip-path:polygon(50%_0%,0%_100%,100%_100%)] left-[50%] -bottom-[23px] -translate-[50%] ${fullResetAlert === false ? "invisible opacity-0" : "visible opacity-100"}`}
+          ></div>
         </button>
         <button
           onClick={() => setIsRunning((prev) => !prev)}
@@ -127,13 +152,25 @@ function App() {
         >
           {isRunning ? <StopBtn /> : <PlayBtn />}
         </button>
-        <button>
+        <button
+          onMouseEnter={() => setExisResetAlert(true)}
+          onMouseLeave={() => setExisResetAlert(false)}
+          onClick={handleReset}
+          className="relative"
+        >
           <RotateCcw
             size={"30px"}
             color="#344e41"
-            onClick={handleReset}
-            className="hover:scale-[1.2] hover:-rotate-360 transition-all duration-1000 ease-in-out"
+            className="hover:scale-[1.2] transition-all duration-1000 ease-in-out"
           />
+          <div
+            className={`w-[150px] absolute bg-(--primary) rounded-lg text-(--bg) ${exisResetAlert === false ? "invisible opacity-0" : "visible opacity-100"} left-[50%] -translate-[50%] -bottom-13`}
+          >
+            Existing Reset
+          </div>
+          <div
+            className={`absolute w-5 h-3 bg-(--primary) [clip-path:polygon(50%_0%,0%_100%,100%_100%)] ${exisResetAlert === false ? "invisible opacity-0" : "visible opacity-100"} left-[50%] -translate-[50%] -bottom-[23px]`}
+          ></div>
         </button>
       </div>
       <div className="h-[100px]"></div>
