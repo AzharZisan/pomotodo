@@ -62,6 +62,7 @@ function App() {
 
   const handleFullReset = () => {
     setIsRunning(false)
+    setPhaseIndex(0)
     setTimeLeft(phases[0].duration)
   }
 
