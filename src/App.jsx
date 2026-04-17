@@ -1,4 +1,4 @@
-import { RotateCcw, CircleDot, CircleDashed, CircleX } from "lucide-react";
+import { RotateCcw, CircleDot, CircleDashed, TimerReset } from "lucide-react";
 import "./App.css";
 import AddBtn from "./components/AddBtn";
 import CheckBtn from "./components/CheckBtn";
@@ -62,7 +62,7 @@ function App() {
       </div>
       <div className="flex justify-center items-center gap-8">
         <button>
-          <CircleX size={"30px"} color="#344e41" />
+          <TimerReset size={"30px"} color="#344e41" />
         </button>
         <button
           onClick={() => setIsRunning((prev) => !prev)}
