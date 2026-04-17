@@ -7,10 +7,31 @@ import StopBtn from "./components/StopBtn";
 import { useEffect, useState, useRef } from "react";
 
 function App() {
-  const [timeLeft, setTimeLeft] = useState(25 * 60);
+  const phases = [
+    { label: "focus", duration: 25 * 60, type: "work" },
+    { label: "break", duration: 5 * 60, type: "break" },
+    { label: "focus", duration: 25 * 60, type: "work" },
+    { label: "break", duration: 5 * 60, type: "break" },
+    { label: "focus", duration: 25 * 60, type: "work" },
+    { label: "break", duration: 5 * 60, type: "break" },
+    { label: "focus", duration: 25 * 60, type: "work" },
+    { label: "long-break", duration: 20 * 60, type: "long-break" },
+  ];
+  const [phaseIndex, setPhaseIndex] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(phases[0].duration);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null);
+  const currentPhase = phases[phaseIndex]
+
   useEffect(() => {
+    if (timeLeft === 0) {
+      setPhaseIndex((prev) => {
+        const next = (prev + 1) % phases.length;
+        setTimeLeft(phases[next].duration);
+        return next;
+      });
+      return;
+    }
     if (isRunning) {
       intervalRef.current = setInterval(() => {
         setTimeLeft((prev) => {
@@ -49,16 +70,20 @@ function App() {
 
       <div className="w-full h-auto flex justify-center items-center my-6]">
         <div className="w-[250px] h-[250px] border-12 border-(--secondary) bg-transparent rounded-full flex justify-center items-center">
-          <p className="text-5xl font-medium text-(--bg-dark)">
+          <p className="text-5xl font-medium text-(--bg-dark) relative">
             {minutes} : {seconds}
           </p>
         </div>
       </div>
-      <div className="flex justify-center items-center gap-1">
-        <AddBtn />
-        <CircleDot color="#f4a261" />
-        <CircleDashed color="#ae2012" />
-        <CircleDashed color="#ae2012" />
+      <div className="flex flex-col justify-center items-center gap-2">
+        <div className="flex justify-center items-center gap-1">
+          <AddBtn />
+          <CircleDot color="#f4a261" />
+          <CircleDashed color="#ae2012" />
+          <CircleDashed color="#ae2012" />
+        </div>
+          {currentPhase.type === "break" && <p className="text-lg font-bold text-(--primary)">Short Break</p>}
+          {currentPhase.type === "long-break" && <p className="text-lg font-bold text-(--primary)">Long Break</p>}
       </div>
       <div className="flex justify-center items-center gap-8">
         <button>
