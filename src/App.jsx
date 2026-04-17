@@ -21,15 +21,19 @@ function App() {
   const [timeLeft, setTimeLeft] = useState(phases[0].duration);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null);
-  const currentPhase = phases[phaseIndex]
+
+  const currentPhase = phases[phaseIndex];
+  const next = (phaseIndex + 1) % phases.length;
+
+  const nextPhase = () => {
+    setPhaseIndex(next);
+    setTimeLeft(phases[next].duration);
+  };
+  console.log(next)
 
   useEffect(() => {
     if (timeLeft === 0) {
-      setPhaseIndex((prev) => {
-        const next = (prev + 1) % phases.length;
-        setTimeLeft(phases[next].duration);
-        return next;
-      });
+      nextPhase()
       return;
     }
     if (isRunning) {
@@ -54,7 +58,7 @@ function App() {
 
   const handleReset = () => {
     setIsRunning(false);
-    setTimeLeft(25 * 60);
+    setTimeLeft(phases[phaseIndex].duration);
   };
 
   return (
@@ -82,8 +86,12 @@ function App() {
           <CircleDashed color="#ae2012" />
           <CircleDashed color="#ae2012" />
         </div>
-          {currentPhase.type === "break" && <p className="text-lg font-bold text-(--primary)">Short Break</p>}
-          {currentPhase.type === "long-break" && <p className="text-lg font-bold text-(--primary)">Long Break</p>}
+        {currentPhase.type === "break" && (
+          <p className="text-lg font-bold text-(--primary)">Short Break</p>
+        )}
+        {currentPhase.type === "long-break" && (
+          <p className="text-lg font-bold text-(--primary)">Long Break</p>
+        )}
       </div>
       <div className="flex justify-center items-center gap-8">
         <button>
