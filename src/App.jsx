@@ -29,7 +29,6 @@ function App() {
     setPhaseIndex(next);
     setTimeLeft(phases[next].duration);
   };
-  console.log(next)
 
   useEffect(() => {
     if (timeLeft === 0) {
