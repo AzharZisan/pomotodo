@@ -32,7 +32,7 @@ function App() {
 
   useEffect(() => {
     if (timeLeft === 0) {
-      nextPhase()
+      nextPhase();
       return;
     }
     if (isRunning) {
@@ -60,6 +60,19 @@ function App() {
     setTimeLeft(phases[phaseIndex].duration);
   };
 
+  const getStatus = (phases) => {
+    if (phases < phaseIndex) return "done";
+    if (phases === phaseIndex) return "active";
+    return "pending";
+  };
+
+  const workPhases = phases
+    .map((item, i) => ({
+      ...item,
+      originalIndex: i,
+    }))
+    .filter((i) => i.type === "work");
+
   return (
     <>
       <div className="w-full h-auto text-center border-b-2 border-(--primary)">
@@ -80,10 +93,22 @@ function App() {
       </div>
       <div className="flex flex-col justify-center items-center gap-2">
         <div className="flex justify-center items-center gap-1">
-          <AddBtn />
-          <CircleDot color="#f4a261" />
-          <CircleDashed color="#ae2012" />
-          <CircleDashed color="#ae2012" />
+          {workPhases.map((phases) => {
+            const status = getStatus(phases.originalIndex);
+            return (
+              <div key={phases.originalIndex}>
+                {status === "done" ? (
+                  <AddBtn />
+                ) : status === "active" ? (
+                  <CircleDot color="#f4a261" />
+                ) : status === "pending" ? (
+                  <CircleDashed color="#ae2012" />
+                ) : (
+                  ""
+                )}
+              </div>
+            );
+          })}
         </div>
         {currentPhase.type === "break" && (
           <p className="text-lg font-bold text-(--primary)">Short Break</p>
