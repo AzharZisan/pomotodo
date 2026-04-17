@@ -139,7 +139,7 @@ function App() {
             className="hover:scale-[1.2] transition-all duration-1000 ease-in-out "
           />
           <div
-            className={`w-[100px] absolute bg-(--primary) rounded-lg text-(--bg) left-[50%] -bottom-13 -translate-[50%] ${fullResetAlert === false ? "invisible opacity-0" : "visible opacity-100"}`}
+            className={`w-[100px] absolute bg-(--primary) rounded-lg py-1 text-(--bg) left-[50%] -bottom-16 -translate-[50%] ${fullResetAlert === false ? "invisible opacity-0" : "visible opacity-100"}`}
           >
             Full Reset
           </div>
@@ -165,7 +165,7 @@ function App() {
             className="hover:scale-[1.2] transition-all duration-1000 ease-in-out"
           />
           <div
-            className={`w-[150px] absolute bg-(--primary) rounded-lg text-(--bg) ${exisResetAlert === false ? "invisible opacity-0" : "visible opacity-100"} left-[50%] -translate-[50%] -bottom-13`}
+            className={`w-[130px] absolute bg-(--primary) rounded-lg text-(--bg) ${exisResetAlert === false ? "invisible opacity-0" : "visible opacity-100"} py-1 left-[50%] -translate-[50%] -bottom-16`}
           >
             Existing Reset
           </div>
