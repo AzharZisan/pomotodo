@@ -12,18 +12,20 @@ const Dashboard = () => {
     JSON.parse(localStorage.getItem("tasklist")) || [],
   );
   const handleDeleteTask = (id, taskListId) => {
-    const targetDel = taskData.map((group) => ({
-      ...group,
-      entries: group.entries.filter((item) => item.id !== id),
-    })).filter((i) => i.entries.length > 0);
+    const targetDel = taskData
+      .map((group) => ({
+        ...group,
+        entries: group.entries.filter((item) => item.id !== id),
+      }))
+      .filter((i) => i.entries.length > 0);
     setTaskData(targetDel);
     localStorage.setItem("tasklist", JSON.stringify(targetDel));
   };
 
   const handleClearData = () => {
-    localStorage.removeItem('tasklist')
-    setTaskData([])
-  }
+    localStorage.removeItem("tasklist");
+    setTaskData([]);
+  };
 
   return (
     <>
@@ -33,7 +35,11 @@ const Dashboard = () => {
         </div>
 
         <div className="grid grid-cols-2 grid-rows-auto gap-4">
-          <div className="border-2 col-span-2 border-[#3a5a40] rounded-2xl">
+          <div className="border-2 col-span-2 border-[#3a5a40] rounded-2xl px-2 pt-2">
+            <div className="w-full flex justify-between items-center pb-4">
+              <input type="date" className="border-2 border-(--primary) px-2 py-1 bg-(--bg-lite) text-(--primary) rounded-lg" />
+              <button className="bg-(--primary) px-2 py-1 border-2 border-(--primary) rounded-lg text-(--bg) hover:border-(--bg-dark) hover:bg-(--bg-dark) cursor-pointer">Search</button>
+            </div>
             <BarChart />
           </div>
           <div className="w-full h-auto row-span-2 row-start-2 relative">
@@ -59,7 +65,10 @@ const Dashboard = () => {
         <div className="w-full h-auto py-8">
           <div className="w-full h-auto border-(--primary) border-b-2 flex justify-between items-center pb-1">
             <h2 className="text-2xl font-bold text-(--primary)">Tasks</h2>
-            <button onClick={handleClearData} className="py-1 px-2 rounded-xl text-(--primary) text-sm font-bold bg-(--bg-lite) hover:bg-(--bg-dark) hover:text-(--bg) cursor-pointer">
+            <button
+              onClick={handleClearData}
+              className="py-1 px-2 rounded-xl text-(--primary) text-sm font-bold bg-(--bg-lite) hover:bg-(--bg-dark) hover:text-(--bg) cursor-pointer"
+            >
               Clear Task
             </button>
           </div>

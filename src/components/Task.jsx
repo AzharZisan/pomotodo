@@ -50,7 +50,7 @@ const Task = ({ taskValue, priorityValue, taskId, onDelete }) => {
             onClick={onDelete}
             className="text-xl ml-2 text-(--primary) hover:text-(--bg-dark) cursor-pointer"
           />
-        </div>
+        </div> 
       </div>
     </>
   );
