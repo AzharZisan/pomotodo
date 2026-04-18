@@ -18,34 +18,33 @@ function App() {
     { label: "long-break", duration: 20 * 60, type: "long-break" },
   ];
 
-  const [phaseIndex, setPhaseIndex] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(phases[0].duration);
+  const [phaseIndex, setPhaseIndex] = useState(() => {
+    const saved = localStorage.getItem("arraysys");
+    return saved ? JSON.parse(saved).phaseIndex : 0;
+  });
+  const [timeLeft, setTimeLeft] = useState(() => {
+    const saved = localStorage.getItem("arraysys");
+    return saved ? JSON.parse(saved).timeLeft : phases[0].duration;
+  });
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null);
 
-  const currentPhase = phases[phaseIndex];
+  const currentPhase = phases[phaseIndex] ?? phases[0];
   const next = (phaseIndex + 1) % phases.length;
 
-  const existingArrSys = JSON.parse(localStorage.getItem("arraysys")) || [];
-  const arraySystem = {
-    phases: phases,
-    phaseIndex: phaseIndex,
-    timeLeft: timeLeft,
-    isRunning: isRunning,
-  };
-  console.log(arraySystem.timeLeft);
-  const updatedArrSys = { ...existingArrSys, arraySystem };
-  localStorage.setItem("arraysys", JSON.stringify(updatedArrSys));
+  useEffect(() => {
+    const arraySystem = {
+      phaseIndex: phaseIndex,
+      timeLeft: timeLeft,
+      isRunning: isRunning,
+    };
+
+    localStorage.setItem("arraysys", JSON.stringify(arraySystem));
+  }, [phaseIndex, timeLeft, isRunning]);
 
   const nextPhase = () => {
     setPhaseIndex(next);
     setTimeLeft(phases[next].duration);
-    const updated = {
-      ...arraySystem,
-      phaseIndex: phaseIndex,
-      timeLeft: timeLeft,
-    };
-    localStorage.setItem("arraysys", JSON.stringify(updated));
   };
 
   useEffect(() => {
@@ -99,6 +98,10 @@ function App() {
       originalIndex: i,
     }))
     .filter((i) => i.type === "work");
+
+  const handlePausePlay = () => {
+    setIsRunning((prev) => !prev);
+  };
 
   return (
     <>
@@ -166,7 +169,10 @@ function App() {
           ></div>
         </button>
         <button
-          onClick={() => setIsRunning((prev) => !prev)}
+          onClick={() => {
+            handlePausePlay();
+            handleAddArrSys();
+          }}
           className="hover:scale-[1.2]"
         >
           {isRunning ? <StopBtn /> : <PlayBtn />}
