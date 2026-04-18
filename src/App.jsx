@@ -1,10 +1,10 @@
 import { RotateCcw, CircleDot, CircleDashed, TimerReset } from "lucide-react";
 import "./App.css";
 import AddBtn from "./components/AddBtn";
-import CheckBtn from "./components/CheckBtn";
 import PlayBtn from "./components/PlayBtn";
 import StopBtn from "./components/StopBtn";
 import { useEffect, useState, useRef } from "react";
+import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 
 function App() {
   const phases = [
@@ -103,14 +103,24 @@ function App() {
     setIsRunning((prev) => !prev);
   };
 
+  const existingTaskList = JSON.parse(localStorage.getItem("tasklist")) || [];
+  const filteredDone = existingTaskList
+    .flatMap((i) => i.entries)
+    .filter((i) => i.checked === true)
+    .reduce((acc, item) => {
+      return acc + 1 ?? 0;
+    },0);
+
   return (
     <>
       <div className="w-full h-auto text-center border-b-2 border-(--primary)">
         <h2 className="text-3xl text-(--secondary) py-4 font-bold">POMOTODO</h2>
       </div>
 
-      <div className="py-3 px-4 bg-(--primary) flex justify-center items-center gap-4 max-w-[200px] text-(--bg) rounded-full my-4">
-        <p className="leading-4">0 Task Completed</p>
+      <div className="py-3 pl-4 pr-3 bg-(--primary) flex justify-center items-center gap-4 max-w-[200px] text-(--bg) rounded-full my-4">
+        <p className="leading-4 flex justify-center items-center gap-3">
+          {filteredDone} Task Completed <IoCheckmarkDoneCircleSharp className="text-xl" />
+        </p>
       </div>
 
       <div className="w-full h-auto flex justify-center items-center my-6]">
