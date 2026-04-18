@@ -2,25 +2,30 @@ import React, { useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 
 const Task = ({ taskValue, priorityValue, taskId, onDelete }) => {
-  const taskData = JSON.parse(localStorage.getItem("tasklist")) || [];
+  const [taskData, setTaskData] = useState(() => {
+    try {
+      const data = JSON.parse(localStorage.getItem("tasklist"));
+      return Array.isArray(data) ? data : []
+    } catch {
+      return []
+    }
+  });
   const [onChecked, setOnChecked] = useState(() => {
-    const target = taskData
-      .flatMap((i) => i.entries)
-      .find((e) => e.id === taskId);
+    const target = taskData.map((i) => i.entries).find((e) => e.id === taskId);
     return target?.checked ?? false;
   });
 
   const handleOnChecked = () => {
-    const newChecked = !onChecked;
-    setOnChecked(newChecked);
-
-    const updated = taskData.map((e) => ({
-      ...e,
-      entries: e.entries.map((i) =>
-        i.id === taskId ? { ...i, checked: newChecked } : i,
-      ),
-    }));
-    localStorage.setItem("tasklist", JSON.stringify(updated));
+    setTaskData((prev) => {
+      const updated = prev.map((e) => ({
+        ...e,
+        entries: e.entries.map((i) =>
+          i.id === taskId ? { ...i, checked: !i.checked } : i,
+        ),
+      }));
+      localStorage.setItem("tasklist", JSON.stringify(updated));
+      return updated;
+    });
   };
 
   return (
@@ -50,7 +55,7 @@ const Task = ({ taskValue, priorityValue, taskId, onDelete }) => {
             onClick={onDelete}
             className="text-xl ml-2 text-(--primary) hover:text-(--bg-dark) cursor-pointer"
           />
-        </div> 
+        </div>
       </div>
     </>
   );
