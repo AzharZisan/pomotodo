@@ -17,6 +17,7 @@ function App() {
     { label: "focus", duration: 25 * 60, type: "work" },
     { label: "long-break", duration: 20 * 60, type: "long-break" },
   ];
+
   const [phaseIndex, setPhaseIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(phases[0].duration);
   const [isRunning, setIsRunning] = useState(false);
@@ -25,9 +26,26 @@ function App() {
   const currentPhase = phases[phaseIndex];
   const next = (phaseIndex + 1) % phases.length;
 
+  const existingArrSys = JSON.parse(localStorage.getItem("arraysys")) || [];
+  const arraySystem = {
+    phases: phases,
+    phaseIndex: phaseIndex,
+    timeLeft: timeLeft,
+    isRunning: isRunning,
+  };
+  console.log(arraySystem.timeLeft);
+  const updatedArrSys = { ...existingArrSys, arraySystem };
+  localStorage.setItem("arraysys", JSON.stringify(updatedArrSys));
+
   const nextPhase = () => {
     setPhaseIndex(next);
     setTimeLeft(phases[next].duration);
+    const updated = {
+      ...arraySystem,
+      phaseIndex: phaseIndex,
+      timeLeft: timeLeft,
+    };
+    localStorage.setItem("arraysys", JSON.stringify(updated));
   };
 
   useEffect(() => {
@@ -61,13 +79,13 @@ function App() {
   };
 
   const handleFullReset = () => {
-    setIsRunning(false)
-    setPhaseIndex(0)
-    setTimeLeft(phases[0].duration)
-  }
+    setIsRunning(false);
+    setPhaseIndex(0);
+    setTimeLeft(phases[0].duration);
+  };
 
   const [fullResetAlert, setFullResetAlert] = useState(false);
-  const [exisResetAlert, setExisResetAlert] = useState(false)
+  const [exisResetAlert, setExisResetAlert] = useState(false);
 
   const getStatus = (phases) => {
     if (phases < phaseIndex) return "done";
