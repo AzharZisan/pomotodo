@@ -109,9 +109,8 @@ function App() {
         <h2 className="text-3xl text-(--secondary) py-4 font-bold">POMOTODO</h2>
       </div>
 
-      <div className="py-2 px-4 bg-(--primary) flex justify-center items-center gap-4 max-w-[200px] text-(--bg) rounded-full my-4">
-        <CheckBtn />
-        <p className="leading-4">Complete the email scaleup</p>
+      <div className="py-3 px-4 bg-(--primary) flex justify-center items-center gap-4 max-w-[200px] text-(--bg) rounded-full my-4">
+        <p className="leading-4">0 Task Completed</p>
       </div>
 
       <div className="w-full h-auto flex justify-center items-center my-6]">
