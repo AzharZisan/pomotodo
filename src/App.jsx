@@ -167,7 +167,7 @@ function App() {
           onMouseEnter={() => setFullResetAlert(true)}
           onMouseLeave={() => setFullResetAlert(false)}
           onClick={handleFullReset}
-          className="relative"
+          className="relative outline-none"
         >
           <TimerReset
             size={"30px"}
