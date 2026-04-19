@@ -1,15 +1,15 @@
-import React from 'react'
-import { useState } from 'react';
-import AnalyticsBtn from '../components/AnalyticsBtn';
-import { Timer } from 'lucide-react';
+import React from "react";
+import { useState } from "react";
+import AnalyticsBtn from "../components/AnalyticsBtn";
+import { Timer } from "lucide-react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const MainLayout = () => {
-    const [navToggle, setNavToggle] = useState(false);
-    const handleNavBtn = () => {
-      setNavToggle((prev) => !prev);
-    };
-    const navigate = useNavigate();
+  const [navToggle, setNavToggle] = useState(false)
+  const handleNavBtn = () => {
+    setNavToggle((prev) => !prev);
+  };
+  const navigate = useNavigate();
   return (
     <>
       <section className="flex justify-center items-center">
@@ -48,6 +48,6 @@ const MainLayout = () => {
       </section>
     </>
   );
-}
+};
 
-export default MainLayout
+export default MainLayout;
