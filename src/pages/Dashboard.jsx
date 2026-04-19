@@ -90,7 +90,7 @@ const Dashboard = () => {
               onClick={handleClearData}
               className="py-1 px-2 rounded-xl text-(--primary) text-sm font-bold bg-(--bg-lite) hover:bg-(--bg-dark) hover:text-(--bg) cursor-pointer"
             >
-              Clear Task
+              Clear Data
             </button>
           </div>
           {taskData.map((i) => (
