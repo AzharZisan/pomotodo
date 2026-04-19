@@ -8,10 +8,29 @@ import { Temporal } from "temporal-polyfill";
 import { useState } from "react";
 
 const Dashboard = () => {
-  const [taskData, setTaskData] = useState(
-    JSON.parse(localStorage.getItem("tasklist")) || [],
-  );
-  const handleDeleteTask = (id, taskListId) => {
+  const [taskData, setTaskData] = useState(() => {
+    try {
+      const data = JSON.parse(localStorage.getItem("tasklist"));
+      return Array.isArray(data) ? data : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const handleOnChecked = (id) => {
+    setTaskData((prev) => {
+      const updated = prev.map((e) => ({
+        ...e,
+        entries: e.entries.map((i) =>
+          i.id === id ? { ...i, checked: !i.checked } : i,
+        ),
+      }));
+      localStorage.setItem("tasklist", JSON.stringify(updated));
+      return updated;
+    });
+  };
+  
+  const handleDeleteTask = (id) => {
     const targetDel = taskData
       .map((group) => ({
         ...group,
@@ -85,8 +104,9 @@ const Dashboard = () => {
                   key={item.id}
                   taskValue={item.task}
                   priorityValue={item.priority}
-                  taskId={item.id}
-                  onDelete={() => handleDeleteTask(item.id, i.taskListId)}
+                  onDelete={() => handleDeleteTask(item.id)}
+                  onChecked={item.checked}
+                  handleOnChecked={() => handleOnChecked(item.id)}
                 />
               ))}
             </div>
