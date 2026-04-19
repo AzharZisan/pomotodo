@@ -180,7 +180,6 @@ function App() {
         <button
           onClick={() => {
             handlePausePlay();
-            handleAddArrSys();
           }}
           className="hover:scale-[1.2]"
         >
