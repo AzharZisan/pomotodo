@@ -5,11 +5,19 @@ import { Timer } from "lucide-react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const MainLayout = () => {
-  const [navToggle, setNavToggle] = useState(false)
+  const [navToggle, setNavToggle] = useState(() => {
+    const stored = localStorage.getItem('navToggle')
+    return stored === 'true'
+  })
   const handleNavBtn = () => {
-    setNavToggle((prev) => !prev);
-  };
-  const navigate = useNavigate();
+    setNavToggle((prev) => {
+      const nextState = !prev
+      localStorage.setItem('navToggle', nextState)
+      return nextState
+    })
+  }
+
+  const navigate = useNavigate()
   return (
     <>
       <section className="flex justify-center items-center">
