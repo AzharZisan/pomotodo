@@ -43,8 +43,9 @@ const Dashboard = () => {
 
   const handleClearData = () => {
     localStorage.removeItem("tasklist");
-    setTaskData([]);
     localStorage.removeItem('arraysys')
+    localStorage.removeItem('navToggle')
+    setTaskData([]);
   };
 
   return (
