@@ -7,13 +7,13 @@ import { Outlet, useNavigate } from "react-router-dom";
 const MainLayout = () => {
   const [navToggle, setNavToggle] = useState(() => {
     const stored = localStorage.getItem('navToggle')
-    return stored === 'true'
+    return stored === "true"
   })
   const handleNavBtn = () => {
     setNavToggle((prev) => {
       const nextState = !prev
       localStorage.setItem('navToggle', nextState)
-      return nextState
+      return nextState;
     })
   }
 
