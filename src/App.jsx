@@ -83,6 +83,11 @@ function App() {
     setTimeLeft(phases[0].duration);
   };
 
+  useEffect(() => {
+    const audio = new Audio("/audio/notification.mp3");
+    audio.play();
+  }, [phaseIndex]);
+
   const [fullResetAlert, setFullResetAlert] = useState(false);
   const [exisResetAlert, setExisResetAlert] = useState(false);
 
@@ -109,7 +114,7 @@ function App() {
     .filter((i) => i.checked === true)
     .reduce((acc, item) => {
       return acc + 1 ?? 0;
-    },0);
+    }, 0);
 
   return (
     <>
@@ -119,7 +124,8 @@ function App() {
 
       <div className="py-3 pl-4 pr-3 bg-(--primary) flex justify-center items-center gap-4 max-w-[200px] text-(--bg) rounded-full my-4">
         <p className="leading-4 flex justify-center items-center gap-3">
-          {filteredDone} Task Completed <IoCheckmarkDoneCircleSharp className="text-xl" />
+          {filteredDone} Task Completed{" "}
+          <IoCheckmarkDoneCircleSharp className="text-xl" />
         </p>
       </div>
 
