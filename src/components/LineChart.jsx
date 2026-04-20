@@ -94,13 +94,14 @@ const LineChart = () => {
         // display: false,
         grid: {
           display: true,
+          color: "#588157",
         },
         ticks: {
           display: false,
         },
         border: {
-          display: false
-        }
+          display: false,
+        },
       },
     },
   };
