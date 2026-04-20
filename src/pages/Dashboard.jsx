@@ -1,11 +1,10 @@
 import React from "react";
-import BarChart from "../components/BarChart";
 import CircleChart from "../components/CircleChart";
 import { MdOutlineAddCircle } from "react-icons/md";
 import Task from "../components/Task";
 import { Link } from "react-router-dom";
-import { Temporal } from "temporal-polyfill";
 import { useState } from "react";
+import LineChart from "../components/LineChart";
 
 const Dashboard = () => {
   const [taskData, setTaskData] = useState(() => {
@@ -61,7 +60,7 @@ const Dashboard = () => {
               <input type="date" className="border-2 border-(--primary) px-2 py-1 bg-(--bg-lite) text-(--primary) rounded-lg" />
               <button className="bg-(--primary) px-2 py-1 border-2 border-(--primary) rounded-lg text-(--bg) hover:border-(--bg-dark) hover:bg-(--bg-dark) cursor-pointer">Search</button>
             </div>
-            <BarChart />
+            <LineChart />
           </div>
           <div className="w-full h-auto row-span-2 row-start-2 relative">
             <CircleChart />
