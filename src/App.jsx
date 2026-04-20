@@ -84,7 +84,7 @@ function App() {
   };
 
   useEffect(() => {
-    const audio = new Audio("/audio/notification.mp3");
+    const audio = new Audio("/audio/searchalert.mp3");
     audio.play();
   }, [phaseIndex]);
 
