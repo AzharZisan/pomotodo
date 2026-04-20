@@ -60,9 +60,14 @@ const Dashboard = () => {
         </div>
 
         <div className="grid grid-cols-2 grid-rows-auto gap-4">
-          <div className="border-2 col-span-2 border-[#3a5a40] rounded-2xl px-2 pt-2">
+          <div className="border-2 col-span-2 border-[#3a5a40] rounded-2xl px-2 pt-2 pb-3">
             <div className="w-full flex justify-between items-center pb-4">
               <input type="date" className="border-2 border-(--primary) px-2 py-1 bg-(--bg-lite) text-(--primary) rounded-lg" />
+              <select className="bg-(--primary) text-(--bg) px-2 py-1 text-lg border-2 border-(--primary) rounded-lg outline-none">
+                <option value="thisDay">This Day</option>
+                <option value="thisWeek">This Week</option>
+                <option value="thisMonth">This Month</option>
+              </select>
               <button onClick={handleSearchAlert} className="bg-(--primary) px-2 py-1 border-2 border-(--primary) rounded-lg text-(--bg) hover:border-(--bg-dark) hover:bg-(--bg-dark) cursor-pointer">Search</button>
             </div>
             <LineChart />
