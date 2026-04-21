@@ -5,6 +5,7 @@ import Task from "../components/Task";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import LineChart from "../components/LineChart";
+import { Temporal } from "temporal-polyfill";
 
 const Dashboard = () => {
   const [taskData, setTaskData] = useState(() => {
@@ -52,6 +53,20 @@ const Dashboard = () => {
     alert.play();
   };
 
+  const thisDay = Temporal.Now.plainDateISO().toString();
+  const getWeekRange = (date = Temporal.Now.plainDateISO()) => {
+    const startOfWeek = date.subtract({ days: date.dayOfWeek - 1 });
+    const endOfWeek = date.add({ days: 7 - date.dayOfWeek });
+    return { startOfWeek, endOfWeek };
+  };
+  const thisMonth = Temporal.Now.plainDateISO().month
+  const thisYear = Temporal.Now.plainDateISO().year
+  const monthFilter = taskData.filter((item) => {
+    if(!item.date) return false;
+    const itemDate = Temporal.PlainDate.from(item.date);
+    return itemDate.month === thisMonth && itemDate.year === thisYear
+  });
+
   return (
     <>
       <div className="w-full px-4 pt-4 pb-16 h-auto max-w-[440px]">
@@ -81,7 +96,10 @@ const Dashboard = () => {
                 type="date"
                 className="border-2 border-(--primary) px-2 py-1 bg-(--bg-lite) text-(--primary) rounded-lg"
               />
-              <button onClick={handleSearchAlert} className="bg-(--primary) px-2 py-1 border-2 border-(--primary) rounded-lg text-(--bg) hover:border-(--bg-dark) hover:bg-(--bg-dark) cursor-pointer">
+              <button
+                onClick={handleSearchAlert}
+                className="bg-(--primary) px-2 py-1 border-2 border-(--primary) rounded-lg text-(--bg) hover:border-(--bg-dark) hover:bg-(--bg-dark) cursor-pointer"
+              >
                 Search
               </button>
             </div>
@@ -91,7 +109,9 @@ const Dashboard = () => {
                 Total Focus Time
               </p>
             </div>
-              <p className="text-center pt-1 text-(--primary)">Based on 24h day time</p>
+            <p className="text-center pt-1 text-(--primary)">
+              Based on 24h day time
+            </p>
           </div>
           <Link to={"/add-task"}>
             <button className="w-full h-full flex justify-center items-center gap-1 py-2 text-md bg-(--bg-lite) text-(--primary) rounded-2xl hover:bg-(--primary) hover:text-(--bg-lite) cursor-pointer font-bold">
