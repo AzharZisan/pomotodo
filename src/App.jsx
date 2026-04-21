@@ -65,17 +65,12 @@ function App() {
           }
           return prev - 1;
         });
-      }, 10);
+      }, 2);
     } else {
       clearInterval(intervalRef.current);
     }
     return () => clearInterval(intervalRef.current);
   }, [isRunning]);
-
-  const thisDay = Temporal.Now.plainDateISO().toString();
-
-  const [completedCycles, setCompletedCycles] = useState(0)
-  const totalFocusData = [{ date: thisDay, donePhases: 4, focusTime: 1563 }];
 
   const minutes = String(Math.floor(timeLeft / 60)).padStart(2, "0");
   const seconds = String(timeLeft % 60).padStart(2, "0");
@@ -124,6 +119,24 @@ function App() {
       return acc + 1 ?? 0;
     }, 0);
 
+  const [complCycles, setComplCycles] = useState(0);
+  const [checkMate, setCheckMate] = useState(
+    Array.from({ length: 8 }, (_, i) => ({ id: i, completed: false })),
+  );
+  const completedCycles = () => {
+    setCheckMate((prev) => {
+      const updated = prev.map((i) =>
+        i.id === phaseIndex ? { ...i, completed: true } : i,
+      );
+      const allDone = updated.every((p) => p.completed);
+      if (allDone) {
+        setComplCycles((c) => c + 1);
+        return updated.map((p) => ({ ...p, completed: false }));
+      }
+      return updated;
+    });
+  };
+  
   return (
     <>
       <div className="w-full h-auto text-center border-b-2 border-(--primary)">
@@ -139,7 +152,7 @@ function App() {
 
       <div className="w-full h-auto flex justify-center items-center my-6]">
         <div className="w-[250px] h-[250px] border-12 border-(--secondary) bg-transparent rounded-full flex justify-center items-center">
-          <p className="text-5xl font-medium text-(--bg-dark) relative">
+          <p className="text-5xl font-medium text-(--bg-dark) relative text-center">
             {minutes} : {seconds}
           </p>
         </div>
@@ -194,6 +207,7 @@ function App() {
         <button
           onClick={() => {
             handlePausePlay();
+            completedCycles();
           }}
           className="hover:scale-[1.2]"
         >
