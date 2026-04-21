@@ -28,7 +28,7 @@ const Dashboard = () => {
       return updated;
     });
   };
-  
+
   const handleDeleteTask = (id) => {
     const targetDel = taskData
       .map((group) => ({
@@ -42,15 +42,15 @@ const Dashboard = () => {
 
   const handleClearData = () => {
     localStorage.removeItem("tasklist");
-    localStorage.removeItem('arraysys')
-    localStorage.removeItem('navToggle')
+    localStorage.removeItem("arraysys");
+    localStorage.removeItem("navToggle");
     setTaskData([]);
   };
 
   const handleSearchAlert = () => {
-    const alert = new Audio('/audio/notification.mp3')
-    alert.play()
-  }
+    const alert = new Audio("/audio/notification.mp3");
+    alert.play();
+  };
 
   return (
     <>
@@ -59,35 +59,42 @@ const Dashboard = () => {
           <h2 className="text-2xl font-bold text-(--primary) p-4">Dashboard</h2>
         </div>
 
-        <div className="grid grid-cols-2 grid-rows-auto gap-4">
-          <div className="border-2 col-span-2 border-[#3a5a40] rounded-2xl px-2 pt-2 pb-3">
+        <div className="">
+          <div className="border-2 border-[#3a5a40] rounded-2xl px-2 pt-2 pb-3">
             <div className="w-full flex justify-between items-center pb-4">
-              <input type="date" className="border-2 border-(--primary) px-2 py-1 bg-(--bg-lite) text-(--primary) rounded-lg" />
               <select className="bg-(--primary) text-(--bg) px-2 py-1 text-lg border-2 border-(--primary) rounded-lg outline-none">
-                <option value="thisDay">This Day</option>
                 <option value="thisWeek">This Week</option>
                 <option value="thisMonth">This Month</option>
               </select>
-              <button onClick={handleSearchAlert} className="bg-(--primary) px-2 py-1 border-2 border-(--primary) rounded-lg text-(--bg) hover:border-(--bg-dark) hover:bg-(--bg-dark) cursor-pointer">Search</button>
+              <button
+                onClick={handleSearchAlert}
+                className="bg-(--primary) px-2 py-1 border-2 border-(--primary) rounded-lg text-(--bg) hover:border-(--bg-dark) hover:bg-(--bg-dark) cursor-pointer"
+              >
+                Search
+              </button>
             </div>
             <LineChart />
           </div>
-          <div className="w-full h-auto row-span-2 row-start-2 relative">
-            <CircleChart />
-            <p className="text-3xl text-(--primary) absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-              65%
-            </p>
-          </div>
-          <div className="w-full h-auto rounded-2xl row-start-2 flex justify-center px-4 items-center bg-(--primary)">
-            <div className="w-full h-[60px]">
-              <CircleChart />
+          <div className="w-full h-auto relative flex flex-col justify-center items-center gap-4 my-4">
+            <div className="w-full flex justify-between items-center">
+              <input
+                type="date"
+                className="border-2 border-(--primary) px-2 py-1 bg-(--bg-lite) text-(--primary) rounded-lg"
+              />
+              <button onClick={handleSearchAlert} className="bg-(--primary) px-2 py-1 border-2 border-(--primary) rounded-lg text-(--bg) hover:border-(--bg-dark) hover:bg-(--bg-dark) cursor-pointer">
+                Search
+              </button>
             </div>
-            <p className="w-full h-auto text-md font-bold text-(--bg) leading-4">
-              Total Focus Time
-            </p>
+            <div className="relative">
+              <CircleChart />
+              <p className="text-xl font-bold leading-5 text-(--primary) text-center absolute top-1/2 left-1/2 -translate-1/2">
+                Total Focus Time
+              </p>
+            </div>
+              <p className="text-center pt-1 text-(--primary)">Based on 24h day time</p>
           </div>
           <Link to={"/add-task"}>
-            <button className="w-full h-full flex justify-center items-center gap-1 text-md col-start-2 row-start-3 bg-(--bg-lite) text-(--primary) rounded-2xl hover:bg-(--primary) hover:text-(--bg-lite) cursor-pointer font-bold">
+            <button className="w-full h-full flex justify-center items-center gap-1 py-2 text-md bg-(--bg-lite) text-(--primary) rounded-2xl hover:bg-(--primary) hover:text-(--bg-lite) cursor-pointer font-bold">
               Add Task <MdOutlineAddCircle />
             </button>
           </Link>
