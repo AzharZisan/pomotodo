@@ -5,6 +5,7 @@ import PlayBtn from "./components/PlayBtn";
 import StopBtn from "./components/StopBtn";
 import { useEffect, useState, useRef } from "react";
 import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
+import { Temporal } from "temporal-polyfill";
 
 function App() {
   const phases = [
@@ -22,10 +23,12 @@ function App() {
     const saved = localStorage.getItem("arraysys");
     return saved ? JSON.parse(saved).phaseIndex : 0;
   });
+
   const [timeLeft, setTimeLeft] = useState(() => {
     const saved = localStorage.getItem("arraysys");
     return saved ? JSON.parse(saved).timeLeft : phases[0].duration;
   });
+
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null);
 
@@ -68,6 +71,11 @@ function App() {
     }
     return () => clearInterval(intervalRef.current);
   }, [isRunning]);
+
+  const thisDay = Temporal.Now.plainDateISO().toString();
+
+  const [completedCycles, setCompletedCycles] = useState(0)
+  const totalFocusData = [{ date: thisDay, donePhases: 4, focusTime: 1563 }];
 
   const minutes = String(Math.floor(timeLeft / 60)).padStart(2, "0");
   const seconds = String(timeLeft % 60).padStart(2, "0");
