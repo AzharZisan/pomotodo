@@ -8,16 +8,17 @@ import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 import { Temporal } from "temporal-polyfill";
 
 function App() {
-  const phases = [
-    { label: "focus", duration: 25 * 60, type: "work" },
-    { label: "break", duration: 5 * 60, type: "break" },
-    { label: "focus", duration: 25 * 60, type: "work" },
-    { label: "break", duration: 5 * 60, type: "break" },
-    { label: "focus", duration: 25 * 60, type: "work" },
-    { label: "break", duration: 5 * 60, type: "break" },
-    { label: "focus", duration: 25 * 60, type: "work" },
-    { label: "long-break", duration: 20 * 60, type: "long-break" },
-  ];
+  const [phases, setPhases] = useState([
+    { id: 0, label: "focus", duration: 25 * 60, type: "work", completed: false },
+    { id: 1, label: "break", duration: 5 * 60, type: "break", completed: false },
+    { id: 2, label: "focus", duration: 25 * 60, type: "work", completed: false },
+    { id: 3, label: "break", duration: 5 * 60, type: "break", completed: false },
+    { id: 4, label: "focus", duration: 25 * 60, type: "work", completed: false },
+    { id: 5, label: "break", duration: 5 * 60, type: "break", completed: false },
+    { id: 6, label: "focus", duration: 25 * 60, type: "work", completed: false },
+    { id: 7, label: "long-break", duration: 20 * 60, type: "long-break", completed: false },
+  ]);
+  localStorage.setItem('phases', JSON.stringify(phases))
 
   const [phaseIndex, setPhaseIndex] = useState(() => {
     const saved = localStorage.getItem("arraysys");
@@ -87,7 +88,7 @@ function App() {
   };
 
   useEffect(() => {
-    const audio = new Audio("/audio/searchalert.mp3");
+    const audio = new Audio("/audio/searchalet.mp3");
     audio.play();
   }, [phaseIndex]);
 
@@ -120,14 +121,12 @@ function App() {
     }, 0);
 
   const [complCycles, setComplCycles] = useState(0);
-  const [checkMate, setCheckMate] = useState(
-    Array.from({ length: 8 }, (_, i) => ({ id: i, completed: false })),
-  );
   const completedCycles = () => {
-    setCheckMate((prev) => {
+    setPhases((prev) => {
       const updated = prev.map((i) =>
         i.id === phaseIndex ? { ...i, completed: true } : i,
       );
+      localStorage.setItem('phases', JSON.stringify(updated))
       const allDone = updated.every((p) => p.completed);
       if (allDone) {
         setComplCycles((c) => c + 1);
@@ -136,6 +135,7 @@ function App() {
       return updated;
     });
   };
+  localStorage.setItem('completedCycles', complCycles)
   
   return (
     <>
