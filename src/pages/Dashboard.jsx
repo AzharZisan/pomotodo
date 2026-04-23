@@ -66,7 +66,10 @@ const Dashboard = () => {
     const itemDate = Temporal.PlainDate.from(item.date);
     return itemDate.month === thisMonth && itemDate.year === thisYear
   });
-   //focus total time will be added
+  
+  const labels = ['focus', 'focus']
+  const dataValues = [20, 40]
+  
   return (
     <>
       <div className="w-full px-4 pt-4 pb-16 h-auto max-w-[440px]">
@@ -88,7 +91,7 @@ const Dashboard = () => {
                 Search
               </button>
             </div>
-            <LineChart />
+            <LineChart dataValues={dataValues} labels={labels} />
           </div>
           <div className="w-full h-auto relative flex flex-col justify-center items-center gap-4 my-4">
             <div className="w-full flex justify-between items-center">
