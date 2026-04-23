@@ -29,7 +29,7 @@ Chartjs.register(
   Filler,
 )
 
-const LineChart = () => {
+const LineChart = ({dataValues, labels}) => {
   const chartRef = useRef(null)
   const getGradient = (ctx, chartArea) => {
     const gradient = ctx.createLinearGradient(
@@ -44,10 +44,10 @@ const LineChart = () => {
     return gradient
   }
   const data = {
-    labels: ["a", "b", "c", "d", "errr", "f", "g"],
+    labels: labels,
     datasets: [
       {
-        data: [56, 59, 80, 81, 56, 55, 40],
+        data: dataValues,
         fill: true,
         borderColor: "rgb(52, 78, 65)",
         tension: 0,
@@ -93,7 +93,7 @@ const LineChart = () => {
       x: {
         // display: false,
         grid: {
-          display: true,
+          display: false,
           color: "#588157",
         },
         ticks: {
