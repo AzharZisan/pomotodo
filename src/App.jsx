@@ -67,9 +67,9 @@ function App() {
     },
   ];
   const [phasesArr, setPhasesArr] = useState(() => {
-    const saved = localStorage.getItem('phases')
-    return saved ? JSON.parse(saved) : phases
-  })
+    const saved = localStorage.getItem("phases");
+    return saved ? JSON.parse(saved) : phases;
+  });
 
   const [phaseIndex, setPhaseIndex] = useState(() => {
     const saved = localStorage.getItem("arraysys");
@@ -159,12 +159,12 @@ function App() {
 
   const existingTaskList = JSON.parse(localStorage.getItem("tasklist")) || [];
   const filteredDone = existingTaskList
-  .flatMap((i) => i.entries)
-  .filter((i) => i.checked === true)
-  .reduce((acc, item) => {
-    return acc + 1 ?? 0;
-  }, 0);
-  
+    .flatMap((i) => i.entries)
+    .filter((i) => i.checked === true)
+    .reduce((acc, item) => {
+      return acc + 1 ?? 0;
+    }, 0);
+
   const [complCycles, setComplCycles] = useState(() => {
     return Number(localStorage.getItem("completedCycles")) || 0;
   });
@@ -185,11 +185,11 @@ function App() {
   useEffect(() => {
     completedCycles();
   }, [phaseIndex]);
-  
+
   useEffect(() => {
     localStorage.setItem("completedCycles", complCycles);
   }, [complCycles]);
-  
+
   const arrsys = JSON.parse(localStorage.getItem("arraysys"));
   // console.log(arrsys.timeLeft);
   const psr = JSON.parse(localStorage.getItem("phases"));
@@ -200,17 +200,16 @@ function App() {
     }, 0);
   const complecyc = localStorage.getItem("completedCycles");
   const finalResult = complecyc * 8100 + redt;
-  console.log(finalResult-arrsys.timeLeft);
-  
+  console.log(finalResult - arrsys.timeLeft);
+
   const handleFullReset = () => {
     setIsRunning(false);
     setPhaseIndex(0);
     setTimeLeft(phases[0].duration);
     setPhasesArr((prev) => {
-      const phasesReset = prev.map((i) => 
-      ({...i, completed: false}))
-      return phasesReset
-    })
+      const phasesReset = prev.map((i) => ({ ...i, completed: false }));
+      return phasesReset;
+    });
   };
 
   return (
