@@ -66,7 +66,7 @@ const Dashboard = () => {
     const itemDate = Temporal.PlainDate.from(item.date);
     return itemDate.month === thisMonth && itemDate.year === thisYear
   });
-
+   //focus total time will be added
   return (
     <>
       <div className="w-full px-4 pt-4 pb-16 h-auto max-w-[440px]">
