@@ -77,7 +77,7 @@ const LineChart = () => {
         titleAlign: "center",
         padding: 10,
         callbacks: {
-          label: (ctx) => `Time: ${ctx.parsed.y} m`,
+          label: (ctx) => `${ctx.parsed.y}`,
         },
         displayColors: false,
         bodyAlign: "center",
