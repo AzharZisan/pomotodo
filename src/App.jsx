@@ -132,12 +132,6 @@ function App() {
     setTimeLeft(phases[phaseIndex].duration);
   };
 
-  const handleFullReset = () => {
-    setIsRunning(false);
-    setPhaseIndex(0);
-    setTimeLeft(phases[0].duration);
-  };
-
   useEffect(() => {
     const audio = new Audio("/audio/searchalet.mp3");
     audio.play();
@@ -165,12 +159,12 @@ function App() {
 
   const existingTaskList = JSON.parse(localStorage.getItem("tasklist")) || [];
   const filteredDone = existingTaskList
-    .flatMap((i) => i.entries)
-    .filter((i) => i.checked === true)
-    .reduce((acc, item) => {
-      return acc + 1 ?? 0;
-    }, 0);
-
+  .flatMap((i) => i.entries)
+  .filter((i) => i.checked === true)
+  .reduce((acc, item) => {
+    return acc + 1 ?? 0;
+  }, 0);
+  
   const [complCycles, setComplCycles] = useState(() => {
     return Number(localStorage.getItem("completedCycles")) || 0;
   });
@@ -191,10 +185,33 @@ function App() {
   useEffect(() => {
     completedCycles();
   }, [phaseIndex]);
-
+  
   useEffect(() => {
     localStorage.setItem("completedCycles", complCycles);
   }, [complCycles]);
+  
+  const arrsys = JSON.parse(localStorage.getItem("arraysys"));
+  // console.log(arrsys.timeLeft);
+  const psr = JSON.parse(localStorage.getItem("phases"));
+  const redt = psr
+    .filter((i) => i.completed === true)
+    .reduce((acc, item) => {
+      return acc + item.duration ?? 0;
+    }, 0);
+  const complecyc = localStorage.getItem("completedCycles");
+  const finalResult = complecyc * 8100 + redt;
+  console.log(finalResult-arrsys.timeLeft);
+  
+  const handleFullReset = () => {
+    setIsRunning(false);
+    setPhaseIndex(0);
+    setTimeLeft(phases[0].duration);
+    setPhasesArr((prev) => {
+      const phasesReset = prev.map((i) => 
+      ({...i, completed: false}))
+      return phasesReset
+    })
+  };
 
   return (
     <>
