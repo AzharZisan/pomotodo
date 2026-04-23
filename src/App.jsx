@@ -199,8 +199,12 @@ function App() {
       return acc + item.duration ?? 0;
     }, 0);
   const complecyc = localStorage.getItem("completedCycles");
-  const finalResult = complecyc * 8100 + redt;
-  console.log(finalResult - arrsys.timeLeft);
+  const finalResult = (complecyc * 8100 + redt) - arrsys.timeLeft;
+
+  const finalHr = Math.floor(finalResult / 3600)
+  const finalMin = Math.floor(finalResult % 3600 / 60)
+  const finalSec = finalResult % 60
+  console.log(finalHr, ':', finalMin, ':' , finalSec)
 
   const handleFullReset = () => {
     setIsRunning(false);
