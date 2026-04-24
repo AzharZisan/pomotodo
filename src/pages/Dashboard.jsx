@@ -80,16 +80,17 @@ const Dashboard = () => {
 
   const finalResult = complecyc * 8100 + redt - arrsys.timeLeft;
 
-  const finalTime = (totalSec) => {
-    const finalHr = Math.floor(totalSec / 3600);
-    const finalMin = Math.floor((totalSec % 3600) / 60);
-    const finalSec = totalSec % 60;
-    return `${finalHr} : ${finalMin} : ${finalSec}`
-  };
+  const finalHr = Math.floor(finalResult / 3600);
+  const finalMin = Math.floor((finalResult % 3600) / 60);
+  const finalSec = finalResult % 60;
 
-  const dataValues = [0, finalTime(finalResult)];
-  const labels = Array(dataValues.length).fill("focus");
-  console.log(console.log(dataValues));
+  const CirDataValues = [86400 - finalResult, finalResult];
+  const CirLabels = [
+    `Rest of the day ${24 - finalHr}h`,
+    Array(CirDataValues.length - 1).fill(
+      `Your Focus ${finalHr}h ${finalMin}m ${finalSec}s`,
+    ),
+  ];
 
   const focusTime = {
     date: Temporal.Now.plainDateISO().toString(),
@@ -120,7 +121,7 @@ const Dashboard = () => {
                 Search
               </button>
             </div>
-            <LineChart dataValues={dataValues} labels={labels} />
+            <LineChart />
           </div>
           <div className="w-full h-auto relative flex flex-col justify-center items-center gap-4 my-4">
             <div className="w-full flex justify-between items-center">
@@ -136,7 +137,7 @@ const Dashboard = () => {
               </button>
             </div>
             <div className="relative">
-              <CircleChart />
+              <CircleChart CirLabels={CirLabels} CirDataValues={CirDataValues} />
               <p className="text-xl font-bold leading-5 text-(--primary) text-center absolute top-1/2 left-1/2 -translate-1/2">
                 Total Focus Time
               </p>
