@@ -94,7 +94,7 @@ function App() {
       isRunning: isRunning,
     };
 
-    localStorage.setItem("arraysys", JSON.stringify(arraySystem));
+    localStorage.setItem("arraysys", JSON.stringify(arraySystem)) ?? {};
   }, [phaseIndex, timeLeft, isRunning]);
 
   const nextPhase = () => {
@@ -190,9 +190,9 @@ function App() {
     localStorage.setItem("completedCycles", complCycles);
   }, [complCycles]);
 
-  const arrsys = JSON.parse(localStorage.getItem("arraysys"));
+  const arrsys = JSON.parse(localStorage.getItem("arraysys")) ?? {};
   // console.log(arrsys.timeLeft);
-  const psr = JSON.parse(localStorage.getItem("phases"));
+  const psr = JSON.parse(localStorage.getItem("phases")) ?? [];
   const redt = psr
     .filter((i) => i.completed === true)
     .reduce((acc, item) => {
@@ -204,7 +204,7 @@ function App() {
   const finalHr = Math.floor(finalResult / 3600)
   const finalMin = Math.floor(finalResult % 3600 / 60)
   const finalSec = finalResult % 60
-  console.log(finalHr, ':', finalMin, ':' , finalSec)
+  // console.log(finalHr, ':', finalMin, ':' , finalSec)
 
   const handleFullReset = () => {
     setIsRunning(false);
@@ -214,6 +214,7 @@ function App() {
       const phasesReset = prev.map((i) => ({ ...i, completed: false }));
       return phasesReset;
     });
+    setComplCycles(0)
   };
 
   return (
@@ -231,7 +232,7 @@ function App() {
 
       <div className="w-full h-auto flex justify-center items-center my-6]">
         <div className="w-[250px] h-[250px] border-12 border-(--secondary) bg-transparent rounded-full flex justify-center items-center">
-          <p className="text-5xl font-medium text-(--bg-dark) relative text-center">
+          <p className="w-full text-5xl font-medium text-(--bg-dark) relative text-center">
             {minutes} : {seconds}
           </p>
         </div>
