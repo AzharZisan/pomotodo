@@ -190,22 +190,6 @@ function App() {
     localStorage.setItem("completedCycles", complCycles);
   }, [complCycles]);
 
-  const arrsys = JSON.parse(localStorage.getItem("arraysys")) ?? {};
-  // console.log(arrsys.timeLeft);
-  const psr = JSON.parse(localStorage.getItem("phases")) ?? [];
-  const redt = psr
-    .filter((i) => i.completed === true)
-    .reduce((acc, item) => {
-      return acc + item.duration ?? 0;
-    }, 0);
-  const complecyc = localStorage.getItem("completedCycles");
-  const finalResult = (complecyc * 8100 + redt) - arrsys.timeLeft;
-
-  const finalHr = Math.floor(finalResult / 3600)
-  const finalMin = Math.floor(finalResult % 3600 / 60)
-  const finalSec = finalResult % 60
-  // console.log(finalHr, ':', finalMin, ':' , finalSec)
-
   const handleFullReset = () => {
     setIsRunning(false);
     setPhaseIndex(0);
@@ -214,7 +198,7 @@ function App() {
       const phasesReset = prev.map((i) => ({ ...i, completed: false }));
       return phasesReset;
     });
-    setComplCycles(0)
+    setComplCycles(0);
   };
 
   return (
