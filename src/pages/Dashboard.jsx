@@ -59,18 +59,46 @@ const Dashboard = () => {
     const endOfWeek = date.add({ days: 7 - date.dayOfWeek });
     return { startOfWeek, endOfWeek };
   };
-  const thisMonth = Temporal.Now.plainDateISO().month
-  const thisYear = Temporal.Now.plainDateISO().year
+  const thisMonth = Temporal.Now.plainDateISO().month;
+  const thisYear = Temporal.Now.plainDateISO().year;
   const monthFilter = taskData.filter((item) => {
-    if(!item.date) return false;
+    if (!item.date) return false;
     const itemDate = Temporal.PlainDate.from(item.date);
-    return itemDate.month === thisMonth && itemDate.year === thisYear
+    return itemDate.month === thisMonth && itemDate.year === thisYear;
   });
-  
-  const dataValues = [20, 40]
-  const labels = Array(dataValues.length).fill('focus')
-  console.log(labels)
-  
+
+  const arrsys = JSON.parse(localStorage.getItem("arraysys")) ?? {};
+  const psr = JSON.parse(localStorage.getItem("phases")) ?? [];
+
+  const redt = psr
+    .filter((i) => i.completed === true)
+    .reduce((acc, item) => {
+      return acc + item.duration ?? 0;
+    }, 0);
+
+  const complecyc = localStorage.getItem("completedCycles");
+
+  const finalResult = complecyc * 8100 + redt - arrsys.timeLeft;
+
+  const finalTime = (totalSec) => {
+    const finalHr = Math.floor(totalSec / 3600);
+    const finalMin = Math.floor((totalSec % 3600) / 60);
+    const finalSec = totalSec % 60;
+    return `${finalHr} : ${finalMin} : ${finalSec}`
+  };
+
+  const dataValues = [0, finalTime(finalResult)];
+  const labels = Array(dataValues.length).fill("focus");
+  console.log(console.log(dataValues));
+
+  const focusTime = {
+    date: Temporal.Now.plainDateISO().toString(),
+    focus: 319,
+  };
+  const existingFTime = JSON.parse(localStorage.getItem("focusTime")) || [];
+  const updatedFTime = [...existingFTime, focusTime];
+  localStorage.setItem("focusTime", JSON.stringify(updatedFTime));
+
   return (
     <>
       <div className="w-full px-4 pt-4 pb-16 h-auto max-w-[440px]">
