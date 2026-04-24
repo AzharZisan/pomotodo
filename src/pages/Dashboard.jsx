@@ -67,8 +67,9 @@ const Dashboard = () => {
     return itemDate.month === thisMonth && itemDate.year === thisYear
   });
   
-  const labels = ['focus', 'focus']
   const dataValues = [20, 40]
+  const labels = Array(dataValues.length).fill('focus')
+  console.log(labels)
   
   return (
     <>
