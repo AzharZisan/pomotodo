@@ -8,6 +8,7 @@ import LineChart from "../components/LineChart";
 import { Temporal } from "temporal-polyfill";
 
 const Dashboard = () => {
+  //tasklist parsing
   const [taskData, setTaskData] = useState(() => {
     try {
       const data = JSON.parse(localStorage.getItem("tasklist"));
@@ -16,14 +17,8 @@ const Dashboard = () => {
       return [];
     }
   });
-  const thisDay = Temporal.Now.plainDateISO().toString();
-  const [circleDate, setCircleDate] = useState(thisDay);
-  const [circleChartData, setCircleChartData] = useState(null);
 
-  const handleCircleDateRef = (e) => {
-    setCircleDate(e.target.value);
-  };
-
+  //checked toogle btn
   const handleOnChecked = (id) => {
     setTaskData((prev) => {
       const updated = prev.map((e) => ({
@@ -37,6 +32,7 @@ const Dashboard = () => {
     });
   };
 
+  //task delete func
   const handleDeleteTask = (id) => {
     const targetDel = taskData
       .map((group) => ({
@@ -48,6 +44,7 @@ const Dashboard = () => {
     localStorage.setItem("tasklist", JSON.stringify(targetDel));
   };
 
+  //task reset / localstorage remove
   const handleClearData = () => {
     localStorage.removeItem("tasklist");
     localStorage.removeItem("arraysys");
@@ -55,11 +52,14 @@ const Dashboard = () => {
     setTaskData([]);
   };
 
+  //circle chart search audio
   const handleSearchAlert = () => {
     const alert = new Audio("/audio/notification.mp3");
     alert.play();
   };
 
+  //date ranges
+  const thisDay = Temporal.Now.plainDateISO().toString();
   const getWeekRange = (date = Temporal.Now.plainDateISO()) => {
     const startOfWeek = date.subtract({ days: date.dayOfWeek - 1 });
     const endOfWeek = date.add({ days: 7 - date.dayOfWeek });
@@ -73,48 +73,60 @@ const Dashboard = () => {
     return itemDate.month === thisMonth && itemDate.year === thisYear;
   });
 
+  //arraysys parse
   const arraysys = JSON.parse(localStorage.getItem("arraysys")) ?? {};
+  //phases parse
   const getPhases = JSON.parse(localStorage.getItem("phases")) ?? [];
 
+  //sum of duration of completed: true obj
   const existingTrueFocus = getPhases
     .filter((i) => i.completed === true)
     .reduce((acc, item) => {
       return acc + item.duration ?? 0;
     }, 0);
 
+  //completed cycle parse
   const complecyc = localStorage.getItem("completedCycles");
+  //subtotal seconds of done times in timer
   const finalResult = complecyc * 8100 + existingTrueFocus - arraysys.timeLeft;
 
-  const getFocusTime = useMemo(() => {
-    const getfocus = JSON.parse(localStorage.getItem("focusTime")) || [];
-    const targetgf = getfocus
-      .filter((i) => i.date === circleDate)
-      .map((i) => i.focus);
-    return getfocus ? targetgf : 0;
-  }, [circleDate]);
+  //states for date value and prop data for search of circle chart
+  const [circleDate, setCircleDate] = useState(thisDay);
+  const [circleChartData, setCircleChartData] = useState(null);
 
-  const finalHr = Math.floor(getFocusTime / 3600);
-  const finalMin = Math.floor((getFocusTime % 3600) / 60);
-  // const finalSec = getFocusTime % 60;
+  //value of selected date
+  const handleCircleDateRef = (e) => {
+    setCircleDate(e.target.value);
+  };
 
-  const focusTime = [{
-    date: Temporal.Now.plainDateISO().toString(),
-    focus: finalResult,
-  }];
-
+  //logic for new date and this day array adding and updating
   useEffect(() => {
     const LSFocusTime = JSON.parse(localStorage.getItem("focusTime")) ?? [];
-    const thisDayFocusArr = LSFocusTime.filter((i) => i.date === thisDay);
+    const todayExists = LSFocusTime.some((i) => i.date === thisDay);
 
-    if (!thisDayFocusArr) {
-      const updatedFTime = [...LSFocusTime, focusTime];
-      localStorage.setItem("focusTime", JSON.stringify(updatedFTime));
+    let updated;
+    if (!todayExists) {
+      updated = [...LSFocusTime, { date: thisDay, focus: finalResult }];
     } else {
-      const updfgf = thisDayFocusArr.map((i) => ({ ...i, focus: finalResult }));
-      localStorage.setItem("focusTime", JSON.stringify(updfgf));
+      updated = LSFocusTime.map((i) =>
+        i.date === thisDay ? { ...i, focus: finalResult } : i,
+      );
     }
-  }, []);
+    localStorage.setItem("focusTime", JSON.stringify(updated));
+  }, [finalResult]);
+  
+  //parsing focus time from focusTime array as per date
+  const getFocusTime = useMemo(() => {
+    const getfocus = JSON.parse(localStorage.getItem("focusTime")) || [];
+    const target = getfocus.find((i) => i.date === circleDate);
+    return getfocus ? target?.focus : 0;
+  }, [circleDate]);
 
+  //hr and min of parsed focus time
+  const finalHr = Math.floor(getFocusTime / 3600);
+  const finalMin = Math.floor((getFocusTime % 3600) / 60);
+
+  //dataset and labels for circle chart as prop
   const handleSearchCirData = () => {
     setCircleChartData({
       values: [86400 - getFocusTime, getFocusTime],
