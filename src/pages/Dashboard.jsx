@@ -19,7 +19,7 @@ const Dashboard = () => {
   const circleSearchRef = useRef();
 
   const handleCircleSearchRef = () => {
-    circleSearchRef.current.value;
+    circleSearchRef.current.value
   };
 
   const handleOnChecked = (id) => {
@@ -84,11 +84,17 @@ const Dashboard = () => {
   const complecyc = localStorage.getItem("completedCycles");
   const finalResult = complecyc * 8100 + existingTrueFocus - arraysys.timeLeft;
 
-  const finalHr = Math.floor(finalResult / 3600);
-  const finalMin = Math.floor((finalResult % 3600) / 60);
+  const [getFocusTime, setGetFocusTime] = useState(() => {
+    const getfocus = JSON.parse(localStorage.getItem("focusTime")) || [];
+    const targetgf = getfocus.filter((i) => i.date === thisDay).map((i) => i.focus);
+    return getfocus ? targetgf : 0;
+  });
+
+  const finalHr = Math.floor(getFocusTime / 3600);
+  const finalMin = Math.floor((getFocusTime % 3600) / 60);
   const finalSec = finalResult % 60;
 
-  const CirDataValues = [86400 - finalResult, finalResult];
+  const CirDataValues = [86400 - getFocusTime, getFocusTime];
   const CirLabels = [
     `Rest of the day ${23 - finalHr}h ${60 - finalMin}m`,
     Array(CirDataValues.length - 1).fill(
@@ -114,11 +120,6 @@ const Dashboard = () => {
     }
   }, []);
 
-  const [getFocusTime, setGetFocusTime] = useState(() => {
-    const getfocus = JSON.parse(localStorage.getItem("focusTime")) || [];
-    const targetgf = getfocus.filter((i) => i.date === thisDay);
-    return getfocus ? targetgf : 0;
-  });
 
   return (
     <>
