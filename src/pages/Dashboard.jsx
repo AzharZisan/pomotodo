@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import CircleChart from "../components/CircleChart";
 import { MdOutlineAddCircle } from "react-icons/md";
 import Task from "../components/Task";
@@ -16,6 +16,11 @@ const Dashboard = () => {
       return [];
     }
   });
+  const circleSearchRef = useRef()
+
+  const handleCircleSearchRef = () => {
+    circleSearchRef.current.value
+  }
 
   const handleOnChecked = (id) => {
     setTaskData((prev) => {
@@ -94,11 +99,11 @@ const Dashboard = () => {
 
   const focusTime = {
     date: Temporal.Now.plainDateISO().toString(),
-    focus: 319,
+    focus: finalResult,
   };
   const existingFTime = JSON.parse(localStorage.getItem("focusTime")) || [];
   const updatedFTime = [...existingFTime, focusTime];
-  localStorage.setItem("focusTime", JSON.stringify(updatedFTime));
+  // localStorage.setItem("focusTime", JSON.stringify(updatedFTime));
 
   return (
     <>
@@ -126,6 +131,8 @@ const Dashboard = () => {
           <div className="w-full h-auto relative flex flex-col justify-center items-center gap-4 my-4">
             <div className="w-full flex justify-between items-center">
               <input
+              ref={circleSearchRef}
+              onChange={handleCircleSearchRef}
                 type="date"
                 className="border-2 border-(--primary) px-2 py-1 bg-(--bg-lite) text-(--primary) rounded-lg"
               />
