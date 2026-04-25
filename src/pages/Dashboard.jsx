@@ -60,18 +60,38 @@ const Dashboard = () => {
 
   //date ranges
   const thisDay = Temporal.Now.plainDateISO().toString();
+
   const getWeekRange = (date = Temporal.Now.plainDateISO()) => {
     const startOfWeek = date.subtract({ days: date.dayOfWeek - 1 });
     const endOfWeek = date.add({ days: 7 - date.dayOfWeek });
     return { startOfWeek, endOfWeek };
   };
+  const LSFocusTime = JSON.parse(localStorage.getItem("focusTime")) ?? [];
+  const { startOfWeek, endOfWeek } = getWeekRange();
+  const weekFilter = LSFocusTime.filter((item) => {
+    if (!item.date) return;
+    const itemDate = Temporal.PlainDate.from(item.date);
+    return (
+      Temporal.PlainDate.compare(itemDate, startOfWeek) >= 0 &&
+      Temporal.PlainDate.compare(itemDate, endOfWeek) <= 0
+    );
+  });
+  
+
   const thisMonth = Temporal.Now.plainDateISO().month;
   const thisYear = Temporal.Now.plainDateISO().year;
-  const monthFilter = taskData.filter((item) => {
+  const monthFilter = LSFocusTime.filter((item) => {
     if (!item.date) return false;
     const itemDate = Temporal.PlainDate.from(item.date);
     return itemDate.month === thisMonth && itemDate.year === thisYear;
   });
+
+  
+  //btn indexes
+  const dayValueIndex = {
+    thisWeek: weekFilter,
+    thisMonth: monthFilter,
+  };
 
   //arraysys parse
   const arraysys = JSON.parse(localStorage.getItem("arraysys")) ?? {};
@@ -114,7 +134,7 @@ const Dashboard = () => {
     }
     localStorage.setItem("focusTime", JSON.stringify(updated));
   }, [finalResult]);
-  
+
   //parsing focus time from focusTime array as per date
   const getFocusTime = useMemo(() => {
     const getfocus = JSON.parse(localStorage.getItem("focusTime")) || [];
