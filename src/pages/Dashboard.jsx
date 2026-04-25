@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import CircleChart from "../components/CircleChart";
 import { MdOutlineAddCircle } from "react-icons/md";
 import Task from "../components/Task";
@@ -16,10 +16,12 @@ const Dashboard = () => {
       return [];
     }
   });
-  const circleSearchRef = useRef();
+  const thisDay = Temporal.Now.plainDateISO().toString();
+  const [circleDate, setCircleDate] = useState(thisDay);
+  const [circleChartData, setCircleChartData] = useState(null);
 
-  const handleCircleSearchRef = () => {
-    circleSearchRef.current.value
+  const handleCircleDateRef = (e) => {
+    setCircleDate(e.target.value);
   };
 
   const handleOnChecked = (id) => {
@@ -58,7 +60,6 @@ const Dashboard = () => {
     alert.play();
   };
 
-  const thisDay = Temporal.Now.plainDateISO().toString();
   const getWeekRange = (date = Temporal.Now.plainDateISO()) => {
     const startOfWeek = date.subtract({ days: date.dayOfWeek - 1 });
     const endOfWeek = date.add({ days: 7 - date.dayOfWeek });
@@ -84,28 +85,22 @@ const Dashboard = () => {
   const complecyc = localStorage.getItem("completedCycles");
   const finalResult = complecyc * 8100 + existingTrueFocus - arraysys.timeLeft;
 
-  const [getFocusTime, setGetFocusTime] = useState(() => {
+  const getFocusTime = useMemo(() => {
     const getfocus = JSON.parse(localStorage.getItem("focusTime")) || [];
-    const targetgf = getfocus.filter((i) => i.date === thisDay).map((i) => i.focus);
+    const targetgf = getfocus
+      .filter((i) => i.date === circleDate)
+      .map((i) => i.focus);
     return getfocus ? targetgf : 0;
-  });
+  }, [circleDate]);
 
   const finalHr = Math.floor(getFocusTime / 3600);
   const finalMin = Math.floor((getFocusTime % 3600) / 60);
-  const finalSec = finalResult % 60;
+  // const finalSec = getFocusTime % 60;
 
-  const CirDataValues = [86400 - getFocusTime, getFocusTime];
-  const CirLabels = [
-    `Rest of the day ${23 - finalHr}h ${60 - finalMin}m`,
-    Array(CirDataValues.length - 1).fill(
-      `Your Focus ${finalHr}h ${finalMin}m`,
-    ),
-  ];
-
-  const focusTime = {
+  const focusTime = [{
     date: Temporal.Now.plainDateISO().toString(),
     focus: finalResult,
-  };
+  }];
 
   useEffect(() => {
     const LSFocusTime = JSON.parse(localStorage.getItem("focusTime")) ?? [];
@@ -115,11 +110,20 @@ const Dashboard = () => {
       const updatedFTime = [...LSFocusTime, focusTime];
       localStorage.setItem("focusTime", JSON.stringify(updatedFTime));
     } else {
-      const updfgf = thisDayFocusArr.map((i) => ({...i, focus: finalResult}))
-      localStorage.setItem('focusTime', JSON.stringify(updfgf))
+      const updfgf = thisDayFocusArr.map((i) => ({ ...i, focus: finalResult }));
+      localStorage.setItem("focusTime", JSON.stringify(updfgf));
     }
   }, []);
 
+  const handleSearchCirData = () => {
+    setCircleChartData({
+      values: [86400 - getFocusTime, getFocusTime],
+      labels: [
+        `Rest of the day ${23 - finalHr}h ${60 - finalMin}m`,
+        `Your Focus ${finalHr}h ${finalMin}m`,
+      ],
+    });
+  };
 
   return (
     <>
@@ -147,13 +151,15 @@ const Dashboard = () => {
           <div className="w-full h-auto relative flex flex-col justify-center items-center gap-4 my-4">
             <div className="w-full flex justify-between items-center">
               <input
-                ref={circleSearchRef}
-                onChange={handleCircleSearchRef}
+                value={circleDate}
+                onChange={handleCircleDateRef}
                 type="date"
                 className="border-2 border-(--primary) px-2 py-1 bg-(--bg-lite) text-(--primary) rounded-lg"
               />
               <button
-                onClick={handleSearchAlert}
+                onClick={() => {
+                  (handleSearchAlert(), handleSearchCirData());
+                }}
                 className="bg-(--primary) px-2 py-1 border-2 border-(--primary) rounded-lg text-(--bg) hover:border-(--bg-dark) hover:bg-(--bg-dark) cursor-pointer"
               >
                 Search
@@ -161,8 +167,8 @@ const Dashboard = () => {
             </div>
             <div className="relative">
               <CircleChart
-                CirLabels={CirLabels}
-                CirDataValues={CirDataValues}
+                CirLabels={circleChartData?.labels ?? []}
+                CirDataValues={circleChartData?.values ?? []}
               />
               <p className="text-xl font-bold leading-5 text-(--primary) text-center absolute top-1/2 left-1/2 -translate-1/2">
                 Total Focus Time
