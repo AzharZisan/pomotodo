@@ -72,18 +72,17 @@ const Dashboard = () => {
     return itemDate.month === thisMonth && itemDate.year === thisYear;
   });
 
-  const arrsys = JSON.parse(localStorage.getItem("arraysys")) ?? {};
-  const psr = JSON.parse(localStorage.getItem("phases")) ?? [];
+  const arraysys = JSON.parse(localStorage.getItem("arraysys")) ?? {};
+  const getPhases = JSON.parse(localStorage.getItem("phases")) ?? [];
 
-  const redt = psr
+  const existingTrueFocus = getPhases
     .filter((i) => i.completed === true)
     .reduce((acc, item) => {
       return acc + item.duration ?? 0;
     }, 0);
 
   const complecyc = localStorage.getItem("completedCycles");
-
-  const finalResult = complecyc * 8100 + redt - arrsys.timeLeft;
+  const finalResult = complecyc * 8100 + existingTrueFocus - arraysys.timeLeft;
 
   const finalHr = Math.floor(finalResult / 3600);
   const finalMin = Math.floor((finalResult % 3600) / 60);
@@ -91,9 +90,9 @@ const Dashboard = () => {
 
   const CirDataValues = [86400 - finalResult, finalResult];
   const CirLabels = [
-    `Rest of the day ${24 - finalHr}h`,
+    `Rest of the day ${23 - finalHr}h ${60 - finalMin}m`,
     Array(CirDataValues.length - 1).fill(
-      `Your Focus ${finalHr}h ${finalMin}m ${finalSec}s`,
+      `Your Focus ${finalHr}h ${finalMin}m`,
     ),
   ];
 
@@ -103,25 +102,23 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    const existingFTime = JSON.parse(localStorage.getItem("focusTime")) ?? [];
-    const existingTodayArrIndex = existingFTime.findIndex((i) => i.date === thisDay);
-    const existingTodayArray = existingFTime.filter((i) => i.date === thisDay);
+    const LSFocusTime = JSON.parse(localStorage.getItem("focusTime")) ?? [];
+    const thisDayFocusArr = LSFocusTime.filter((i) => i.date === thisDay);
 
-    if (!existingTodayArray) {
-      const updatedFTime = [...existingFTime, focusTime];
+    if (!thisDayFocusArr) {
+      const updatedFTime = [...LSFocusTime, focusTime];
       localStorage.setItem("focusTime", JSON.stringify(updatedFTime));
     } else {
-      const updfgf = existingTodayArray.map((i) => ({...i, focus: finalResult}))
+      const updfgf = thisDayFocusArr.map((i) => ({...i, focus: finalResult}))
       localStorage.setItem('focusTime', JSON.stringify(updfgf))
     }
   }, []);
 
-  const [edfr, setEdfr] = useState(() => {
+  const [getFocusTime, setGetFocusTime] = useState(() => {
     const getfocus = JSON.parse(localStorage.getItem("focusTime")) || [];
     const targetgf = getfocus.filter((i) => i.date === thisDay);
     return getfocus ? targetgf : 0;
   });
-  // console.log(edfr, thisDay);
 
   return (
     <>
