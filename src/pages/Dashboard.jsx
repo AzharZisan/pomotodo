@@ -3,7 +3,7 @@ import CircleChart from "../components/CircleChart";
 import { MdOutlineAddCircle } from "react-icons/md";
 import Task from "../components/Task";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LineChart from "../components/LineChart";
 import { Temporal } from "temporal-polyfill";
 
@@ -16,11 +16,11 @@ const Dashboard = () => {
       return [];
     }
   });
-  const circleSearchRef = useRef()
+  const circleSearchRef = useRef();
 
   const handleCircleSearchRef = () => {
-    circleSearchRef.current.value
-  }
+    circleSearchRef.current.value;
+  };
 
   const handleOnChecked = (id) => {
     setTaskData((prev) => {
@@ -101,9 +101,27 @@ const Dashboard = () => {
     date: Temporal.Now.plainDateISO().toString(),
     focus: finalResult,
   };
-  const existingFTime = JSON.parse(localStorage.getItem("focusTime")) || [];
-  const updatedFTime = [...existingFTime, focusTime];
-  // localStorage.setItem("focusTime", JSON.stringify(updatedFTime));
+
+  useEffect(() => {
+    const existingFTime = JSON.parse(localStorage.getItem("focusTime")) ?? [];
+    const existingTodayArrIndex = existingFTime.findIndex((i) => i.date === thisDay);
+    const existingTodayArray = existingFTime.filter((i) => i.date === thisDay);
+
+    if (!existingTodayArray) {
+      const updatedFTime = [...existingFTime, focusTime];
+      localStorage.setItem("focusTime", JSON.stringify(updatedFTime));
+    } else {
+      const updfgf = existingTodayArray.map((i) => ({...i, focus: finalResult}))
+      localStorage.setItem('focusTime', JSON.stringify(updfgf))
+    }
+  }, []);
+
+  const [edfr, setEdfr] = useState(() => {
+    const getfocus = JSON.parse(localStorage.getItem("focusTime")) || [];
+    const targetgf = getfocus.filter((i) => i.date === thisDay);
+    return getfocus ? targetgf : 0;
+  });
+  // console.log(edfr, thisDay);
 
   return (
     <>
@@ -131,8 +149,8 @@ const Dashboard = () => {
           <div className="w-full h-auto relative flex flex-col justify-center items-center gap-4 my-4">
             <div className="w-full flex justify-between items-center">
               <input
-              ref={circleSearchRef}
-              onChange={handleCircleSearchRef}
+                ref={circleSearchRef}
+                onChange={handleCircleSearchRef}
                 type="date"
                 className="border-2 border-(--primary) px-2 py-1 bg-(--bg-lite) text-(--primary) rounded-lg"
               />
@@ -144,7 +162,10 @@ const Dashboard = () => {
               </button>
             </div>
             <div className="relative">
-              <CircleChart CirLabels={CirLabels} CirDataValues={CirDataValues} />
+              <CircleChart
+                CirLabels={CirLabels}
+                CirDataValues={CirDataValues}
+              />
               <p className="text-xl font-bold leading-5 text-(--primary) text-center absolute top-1/2 left-1/2 -translate-1/2">
                 Total Focus Time
               </p>
