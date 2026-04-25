@@ -76,7 +76,23 @@ const Dashboard = () => {
       Temporal.PlainDate.compare(itemDate, endOfWeek) <= 0
     );
   });
-  
+  const weekFilterData = useMemo(() => {
+    const weekMap = {}
+    for (let i = 0; i < 7; i++) {
+       const days = startOfWeek.add({days: i}).toString()
+       weekMap[days] = 0
+    }
+
+    LSFocusTime.forEach((item) => {
+      if (weekMap[item.date] !== undefined) {
+        weekMap[item.date] = item.focus
+      }
+    })
+
+    return weekMap
+  }, [])
+  const labels = Object.keys(weekFilterData)
+  const values = Object.values(weekFilterData)
 
   const thisMonth = Temporal.Now.plainDateISO().month;
   const thisYear = Temporal.Now.plainDateISO().year;
@@ -178,7 +194,7 @@ const Dashboard = () => {
                 Search
               </button>
             </div>
-            <LineChart />
+            <LineChart labels={labels} dataValues={values}/>
           </div>
           <div className="w-full h-auto relative flex flex-col justify-center items-center gap-4 my-4">
             <div className="w-full flex justify-between items-center">
