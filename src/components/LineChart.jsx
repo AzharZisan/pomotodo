@@ -29,7 +29,7 @@ Chartjs.register(
   Filler,
 )
 
-const LineChart = () => {
+const LineChart = ({labels, dataValues}) => {
   const chartRef = useRef(null)
   const getGradient = (ctx, chartArea) => {
     const gradient = ctx.createLinearGradient(
@@ -43,8 +43,7 @@ const LineChart = () => {
     gradient.addColorStop(1, "rgba(52, 78, 65, 0)");
     return gradient
   }
-  let labels = ['A', 'B']
-  let dataValues = [20, 50]
+
   const data = {
     labels: labels,
     datasets: [
