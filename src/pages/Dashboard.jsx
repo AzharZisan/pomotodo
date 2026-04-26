@@ -214,7 +214,7 @@ const Dashboard = () => {
               <select
                 value={selectValue}
                 onChange={handleSelectRef}
-                className="bg-(--primary) text-(--bg) px-2 py-1 text-lg border-2 border-(--primary) rounded-lg outline-none"
+                className="bg-(--primary) text-(--bg) px-2 py-1 border-2 border-(--primary) rounded-lg outline-none"
               >
                 <option value="thisWeek">This Week</option>
                 <option value="thisMonth">This Month</option>
