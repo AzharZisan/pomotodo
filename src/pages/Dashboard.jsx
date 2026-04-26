@@ -77,22 +77,20 @@ const Dashboard = () => {
     );
   });
   const weekFilterData = useMemo(() => {
-    const weekMap = {}
+    const weekMap = {};
     for (let i = 0; i < 7; i++) {
-       const days = startOfWeek.add({days: i}).toString()
-       weekMap[days] = 0
+      const days = startOfWeek.add({ days: i }).toString();
+      weekMap[days] = 0;
     }
 
     LSFocusTime.forEach((item) => {
       if (weekMap[item.date] !== undefined) {
-        weekMap[item.date] = item.focus
+        weekMap[item.date] = item.focus;
       }
-    })
+    });
 
-    return weekMap
-  }, [])
-  const labels = Object.keys(weekFilterData)
-  const values = Object.values(weekFilterData)
+    return weekMap;
+  }, []);
 
   const thisMonth = Temporal.Now.plainDateISO().month;
   const thisYear = Temporal.Now.plainDateISO().year;
@@ -101,29 +99,28 @@ const Dashboard = () => {
     const itemDate = Temporal.PlainDate.from(item.date);
     return itemDate.month === thisMonth && itemDate.year === thisYear;
   });
-  const dayRangeInMonth = Temporal.Now.plainDateISO().daysInMonth
+  const dayRangeInMonth = Temporal.Now.plainDateISO().daysInMonth;
   const startOfMonth = Temporal.PlainDate.from({
     year: thisYear,
     month: thisMonth,
-    day: 1
-  })
+    day: 1,
+  });
   const monthFilterData = useMemo(() => {
-    const monthMap = {}
+    const monthMap = {};
     for (let i = 0; i < dayRangeInMonth; i++) {
-      const days = startOfMonth.add({days: i}).toString()
-      monthMap[days] = 0
+      const days = startOfMonth.add({ days: i }).toString();
+      monthMap[days] = 0;
     }
 
     LSFocusTime.forEach((item) => {
       if (monthMap[item.date] !== undefined) {
-        monthMap[item.date] = item.focus
+        monthMap[item.date] = item.focus;
       }
-    })
+    });
 
-    return monthMap
-  }, [])
-  console.log(monthFilterData)
-  
+    return monthMap;
+  }, []);
+
   //btn indexes
   const dayValueIndex = {
     thisWeek: weekFilterData,
@@ -194,6 +191,16 @@ const Dashboard = () => {
     });
   };
 
+  //select value parse
+  const [selectValue, setSelectValue] = useState("thisWeek");
+  const handleSelectRef = (e) => {
+    setSelectValue(e.target.value);
+  };
+
+  //labels and values for linechart
+  const labels = Object.keys(dayValueIndex[selectValue]);
+  const values = Object.values(dayValueIndex[selectValue]);
+
   return (
     <>
       <div className="w-full px-4 pt-4 pb-16 h-auto max-w-[440px]">
@@ -203,19 +210,17 @@ const Dashboard = () => {
 
         <div className="">
           <div className="border-2 border-[#3a5a40] rounded-2xl px-2 pt-2 pb-3">
-            <div className="w-full flex justify-between items-center pb-4">
-              <select className="bg-(--primary) text-(--bg) px-2 py-1 text-lg border-2 border-(--primary) rounded-lg outline-none">
+            <div className="w-full flex justify-start items-center pb-4">
+              <select
+                value={selectValue}
+                onChange={handleSelectRef}
+                className="bg-(--primary) text-(--bg) px-2 py-1 text-lg border-2 border-(--primary) rounded-lg outline-none"
+              >
                 <option value="thisWeek">This Week</option>
                 <option value="thisMonth">This Month</option>
               </select>
-              <button
-                onClick={handleSearchAlert}
-                className="bg-(--primary) px-2 py-1 border-2 border-(--primary) rounded-lg text-(--bg) hover:border-(--bg-dark) hover:bg-(--bg-dark) cursor-pointer"
-              >
-                Search
-              </button>
             </div>
-            <LineChart labels={labels} dataValues={values}/>
+            <LineChart labels={labels} dataValues={values} />
           </div>
           <div className="w-full h-auto relative flex flex-col justify-center items-center gap-4 my-4">
             <div className="w-full flex justify-between items-center">
