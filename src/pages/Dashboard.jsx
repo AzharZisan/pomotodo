@@ -101,12 +101,33 @@ const Dashboard = () => {
     const itemDate = Temporal.PlainDate.from(item.date);
     return itemDate.month === thisMonth && itemDate.year === thisYear;
   });
+  const dayRangeInMonth = Temporal.Now.plainDateISO().daysInMonth
+  const startOfMonth = Temporal.PlainDate.from({
+    year: thisYear,
+    month: thisMonth,
+    day: 1
+  })
+  const monthFilterData = useMemo(() => {
+    const monthMap = {}
+    for (let i = 0; i < dayRangeInMonth; i++) {
+      const days = startOfMonth.add({days: i}).toString()
+      monthMap[days] = 0
+    }
 
+    LSFocusTime.forEach((item) => {
+      if (monthMap[item.date] !== undefined) {
+        monthMap[item.date] = item.focus
+      }
+    })
+
+    return monthMap
+  }, [])
+  console.log(monthFilterData)
   
   //btn indexes
   const dayValueIndex = {
-    thisWeek: weekFilter,
-    thisMonth: monthFilter,
+    thisWeek: weekFilterData,
+    thisMonth: monthFilterData,
   };
 
   //arraysys parse
