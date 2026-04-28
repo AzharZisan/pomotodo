@@ -132,9 +132,9 @@ function App() {
     setTimeLeft(phases[phaseIndex].duration);
   };
 
+  const searchAlertRef = useRef(null);
   useEffect(() => {
-    const audio = new Audio("/audio/searchalet.mp3");
-    audio.play();
+    searchAlertRef.current.play();
   }, [phaseIndex]);
 
   const [fullResetAlert, setFullResetAlert] = useState(false);
@@ -205,6 +205,7 @@ function App() {
     <>
       <div className="w-full h-auto text-center border-b-2 border-(--primary)">
         <h2 className="text-3xl text-(--secondary) py-4 font-bold">POMOTODO</h2>
+        <audio ref={searchAlertRef} src="/audio/searchalert.mp3"></audio>
       </div>
 
       <div className="py-3 pl-4 pr-3 bg-(--primary) flex justify-center items-center gap-4 max-w-[200px] text-(--bg) rounded-full my-4">
