@@ -201,11 +201,25 @@ function App() {
     setComplCycles(0);
   };
 
+  // const thisDay = Temporal.Now.plainDateISO().toString()
+  // const LSFocusTime = JSON.parse(localStorage.getItem('focusTime')) ?? {}
+  // const todayExists = LSFocusTime.some((i) => i.date === thisDay)
+  // if (!todayExists) {
+  //   const UpdatedArraySystem = {
+  //     phaseIndex: 0,
+  //     timeLeft: timeLeft,
+  //     isRunning: isRunning,
+  //   };
+
+  //   localStorage.setItem("arraysys", JSON.stringify(UpdatedArraySystem)) ?? {};
+  //   setPhaseIndex(UpdatedArraySystem.phaseIndex)
+  // }
+
   return (
     <>
       <div className="w-full h-auto text-center border-b-2 border-(--primary)">
         <h2 className="text-3xl text-(--secondary) py-4 font-bold">POMOTODO</h2>
-        <audio ref={searchAlertRef} src="/audio/searchalert.mp3"></audio>
+        <audio ref={searchAlertRef} src="/audio/searchalet.mp3"></audio>
       </div>
 
       <div className="py-3 pl-4 pr-3 bg-(--primary) flex justify-center items-center gap-4 max-w-[200px] text-(--bg) rounded-full my-4">
