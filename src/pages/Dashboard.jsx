@@ -142,7 +142,7 @@ const Dashboard = () => {
   //completed cycle parse
   const complecyc = localStorage.getItem("completedCycles");
   //subtotal seconds of done times in timer
-  const finalResult = complecyc * 8100 + existingTrueFocus - arraysys.timeLeft;
+  let finalResult = complecyc * 8100 + existingTrueFocus - arraysys.timeLeft;
 
   //states for date value and prop data for search of circle chart
   const [circleDate, setCircleDate] = useState(thisDay);
@@ -160,6 +160,7 @@ const Dashboard = () => {
 
     let updated;
     if (!todayExists) {
+      finalResult = 0;
       updated = [...LSFocusTime, { date: thisDay, focus: finalResult }];
     } else {
       updated = LSFocusTime.map((i) =>
